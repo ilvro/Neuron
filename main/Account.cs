@@ -15,14 +15,12 @@ namespace Neuron
     class Account
     {
         public string Username;
-        public string Password;
         public string Cookie;
         private static readonly HttpClient client = new HttpClient();
 
-        public Account(string auser, string apass, string acookie)
+        public Account(string auser, string acookie)
         {
             Username = auser;
-            Password = apass;
             Cookie = acookie;
 
 
