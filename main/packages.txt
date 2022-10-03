@@ -1,0 +1,4 @@
+﻿CefSharp
+CefSharp.WinForms
+RestSharp
+ConsoleAppLauncher

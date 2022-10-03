@@ -1,0 +1,130 @@
+﻿<Window x:Class="Neuron_V2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Neuron_V2"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="576" Width="606.5"
+        ResizeMode="NoResize">
+
+    <Grid>
+        <Frame Name="mainLoginTab"></Frame>
+        <TextBlock 
+            Margin="54,145,0,0"
+            Text="Key" 
+            VerticalAlignment="Top"
+            FontWeight="Medium"
+            FontFamily="Montserrat"
+            FontSize="16"
+            Foreground="Black" Height="35" Width="136" HorizontalAlignment="Left"/>
+
+
+        <TextBlock x:Name="keyText"
+                 FontSize="13"
+                 FontWeight="Medium"
+                 FontFamily="Montserrat"
+                 FontStyle="Italic"
+                 Background="Transparent"
+                 Text="Your key here."
+                 Opacity="0.3"
+                 
+                Margin="54,189,209,331"></TextBlock>
+
+        <TextBox x:Name="keyTextAndBorder"
+                 FontSize="13"
+                 FontWeight="Normal"
+                 FontFamily="Montserrat"
+                 FontStyle="Normal"
+                 Background="Transparent"
+                 Foreground="Black"
+                 CaretBrush="LightGray"
+                 BorderBrush="DarkGray"
+                 BorderThickness="0,0,0,2"
+                 Opacity="1"
+                 
+                Margin="54,189,209,327" TextChanged="keyTextAndBorder_TextChanged"></TextBox>
+        <TextBlock 
+            Margin="54,277,0,0"
+            Text="Discord ID" 
+            VerticalAlignment="Top"
+            FontWeight="Medium"
+            FontFamily="Montserrat"
+            FontSize="16"
+            Foreground="Black" Height="35" Width="136" HorizontalAlignment="Left"/>
+
+        <TextBlock x:Name="IDText"
+                 FontSize="13"
+                 FontWeight="Medium"
+                 FontFamily="Montserrat"
+                 FontStyle="Italic"
+                 Background="Transparent"
+                 Text="Your discord ID here."
+                 Opacity="0.3"
+                 
+                Margin="54,312,209,208"></TextBlock>
+
+        <TextBox x:Name="IDTextAndBorder"
+            FontSize="13"
+            FontWeight="Normal"
+            FontFamily="Montserrat"
+            FontStyle="Normal"
+            Background="Transparent"
+            Foreground="Black"
+            CaretBrush="LightGray"
+            BorderBrush="DarkGray"
+            BorderThickness="0,0,0,2"
+            Opacity="1"
+                 
+            Margin="54,312,209,204" TextChanged="IDTextAndBorder_TextChanged"/>
+        <TextBlock 
+            Margin="54,58,0,0" 
+            Text="Welcome. Looks like it's your first time." 
+            VerticalAlignment="Top"
+            FontWeight="Medium"
+            FontFamily="Montserrat"
+            FontSize="18"
+            Foreground="Black" Height="23" Width="325" HorizontalAlignment="Left"
+            />
+        <Button
+            x:Name="btnLogin"
+            Content="LOG IN" 
+            Foreground="White"
+            FontSize="18"
+            FontFamily="Montserrat"
+            FontWeight="Regular"
+            BorderThickness="0" RenderTransformOrigin="0.5,0.8" Margin="-4,367,366,100"
+            Cursor="Hand" Click="btnLogin_Click"
+            >
+            <Button.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="-1.364"/>
+                    <RotateTransform/>
+                    <TranslateTransform X="-0.476"/>
+                </TransformGroup>
+            </Button.RenderTransform>
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Background" Value="#199ce6"/>
+                </Style>
+            </Button.Style>
+
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Width="Auto" Height="40"
+                            CornerRadius="13"
+                            Background="{TemplateBinding Background}" Margin="55,0,0,0">
+                        <ContentPresenter VerticalAlignment="Center"
+                                          HorizontalAlignment="Center"/>
+
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+
+
+
+
+    </Grid>
+</Window>
