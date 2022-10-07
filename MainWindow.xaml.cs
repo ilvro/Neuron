@@ -12,6 +12,8 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using System.Diagnostics;
+using System.Threading;
 
 namespace Neuron_V2
 {
@@ -75,6 +77,19 @@ namespace Neuron_V2
                 MessageBox.Show("wrong directory");
                 Application.Current.Shutdown();
             }
+
+            // check if roblox is open; if it is, prompt to close it. this is because multi roblox wont work if its already open
+            Process[] processes = Process.GetProcessesByName("RobloxPlayerBeta");
+            if (processes.Length > 0)
+            {
+                MessageBoxResult dlgResult = MessageBox.Show("Close ROBLOX? If you press no, you won't be able to use multiple accounts.", "Neuron", MessageBoxButton.YesNo);
+                if (dlgResult.ToString() == "Yes")
+                {
+                    processes[0].Kill();
+                }
+            }
+
+
         }
         private void userTextBorder_GotFocus(object sender, RoutedEventArgs e)
         {
@@ -123,6 +138,10 @@ namespace Neuron_V2
 
                 string json = System.Text.Json.JsonSerializer.Serialize(data);
                 File.WriteAllText(NeuronF.currentPath() + @"\main\login.json", json);
+
+                var mainNeuron = new mainUserUI();
+                mainNeuron.ShowDialog(); // this pauses this window's code
+                Application.Current.Shutdown(); // stops everything when the main ui is closed (mainUserUI)
                 //string a = "#119ce0";
             }
         }

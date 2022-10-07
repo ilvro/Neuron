@@ -3,10 +3,23 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Neuron_V2.main"
+        xmlns:local="clr-namespace:Neuron_V2.main" xmlns:Icon="clr-namespace:MahApps.Metro.IconPacks;assembly=MahApps.Metro.IconPacks.Material"
         mc:Ignorable="d"
         Title="mainUserUI" Height="450" Width="800">
+
+
     <Grid>
-        
+        <Button Style="{StaticResource addAccountBtn}" 
+            Margin="0,70,23,315" Height="Auto" Grid.Row="0" Width="133">
+            <StackPanel Orientation="Horizontal">
+                <Icon:PackIconMaterial 
+                    Kind="Plus"
+                    VerticalAlignment="Center"
+                    Width="11"
+                    Height="11"
+                    Margin="0 1 8 0"/>
+                <TextBlock Text="Add Account"/>
+            </StackPanel>
+        </Button>
     </Grid>
 </Window>

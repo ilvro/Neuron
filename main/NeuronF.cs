@@ -98,7 +98,13 @@ namespace Neuron_V2.main
             public string mainTheme { get; set; }
         }
 
-
+        public class AccountData
+        {
+            public string username { get; set; }
+            public string Cookie { get; set; }
+            public string lastPlace { get; set; }
+            public string relaunchWhenClosed { get; set; }
+        }
         public static string getJsonProperty(string path, string property) {
             // File.Exists(path + @"\main\login.json
             string neuronPath = currentDirectory();
