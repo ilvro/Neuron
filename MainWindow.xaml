@@ -6,7 +6,9 @@
         xmlns:local="clr-namespace:Neuron_V2" xmlns:Icon="clr-namespace:MahApps.Metro.IconPacks;assembly=MahApps.Metro.IconPacks.Material"
         mc:Ignorable="d"
         Title="MainWindow" Height="576" Width="606.5"
-        ResizeMode="NoResize">
+        ResizeMode="NoResize"
+
+        WindowStartupLocation="CenterScreen">
 
     <Grid>
         <Frame Name="mainLoginTab"></Frame>
@@ -14,7 +16,7 @@
             Margin="54,145,0,0"
             Text="Key" 
             VerticalAlignment="Top"
-            FontWeight="Medium"
+            FontWeight="SemiBold"
             FontFamily="Montserrat"
             FontSize="16"
             Foreground="Black" Height="35" Width="136" HorizontalAlignment="Left"/>
@@ -48,7 +50,7 @@
             Margin="54,277,0,0"
             Text="Discord ID" 
             VerticalAlignment="Top"
-            FontWeight="Medium"
+            FontWeight="SemiBold"
             FontFamily="Montserrat"
             FontSize="16"
             Foreground="Black" Height="35" Width="136" HorizontalAlignment="Left"/>
@@ -81,7 +83,7 @@
             Margin="54,58,0,0" 
             Text="Welcome. Looks like it's your first time." 
             VerticalAlignment="Top"
-            FontWeight="Medium"
+            FontWeight="DemiBold"
             FontFamily="Montserrat"
             FontSize="18"
             Foreground="Black" Height="23" Width="325" HorizontalAlignment="Left"
@@ -94,7 +96,7 @@
             FontFamily="Montserrat"
             FontWeight="Regular"
             BorderThickness="0" RenderTransformOrigin="0.5,0.8" Margin="-4,367,366,100"
-            Cursor="Hand" Click="btnLogin_Click"
+            Cursor="Hand" Click="btnLogin_Click" TextOptions.TextFormattingMode="Display"
             >
             <Button.RenderTransform>
                 <TransformGroup>

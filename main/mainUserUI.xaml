@@ -5,21 +5,60 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Neuron_V2.main" xmlns:Icon="clr-namespace:MahApps.Metro.IconPacks;assembly=MahApps.Metro.IconPacks.Material"
         mc:Ignorable="d"
-        Title="mainUserUI" Height="450" Width="800">
+        Title="mainUserUI" Height="450" Width="800"
+        VisualTextRenderingMode="ClearType"
+        SnapsToDevicePixels="True"
+        WindowStartupLocation="CenterScreen">
 
 
     <Grid>
         <Button Style="{StaticResource addAccountBtn}" 
-            Margin="0,70,23,315" Height="Auto" Grid.Row="0" Width="133">
+            Margin="0,20,19,354" Height="Auto" Grid.Row="0" Width="149">
             <StackPanel Orientation="Horizontal">
                 <Icon:PackIconMaterial 
                     Kind="Plus"
                     VerticalAlignment="Center"
-                    Width="11"
+                    Width="15"
                     Height="11"
                     Margin="0 1 8 0"/>
-                <TextBlock Text="Add Account"/>
+                <TextBlock Text="Add Account" FontSize="16" HorizontalAlignment="Right" Width="100" TextOptions.TextFormattingMode="Display"/>
             </StackPanel>
         </Button>
+        <TextBlock 
+            HorizontalAlignment="Left" 
+
+            VerticalAlignment="Top"
+            FontSize="28"
+            FontWeight="Medium" 
+            Margin="42,20,0,0" Text="Accounts"/>
+        <TextBlock 
+            HorizontalAlignment="Left" 
+            FontWeight="Medium"
+            FontSize="13.5"
+            Margin="42,76,0,0" 
+            Text="Name" 
+            VerticalAlignment="Top"/>
+        <TextBlock 
+            HorizontalAlignment="Left" 
+            FontWeight="Medium"
+            FontSize="13.5"
+            Margin="201,76,0,0" 
+            Text="Running" 
+            VerticalAlignment="Top"/>
+        <TextBlock 
+            HorizontalAlignment="Left" 
+            FontWeight="Medium"
+            FontSize="13.5"
+            Margin="282,76,0,0" 
+            VerticalAlignment="Top" Height="21"><Run Text="Relaunch when closed"/><LineBreak/><Run/></TextBlock>
+        <TextBlock 
+            HorizontalAlignment="Left" 
+            FontWeight="Medium"
+            FontSize="13.5"
+            Margin="105,76,0,0" 
+            VerticalAlignment="Top" Height="21"><Run Text="Description"/><LineBreak/><Run/></TextBlock>
+
+
+
     </Grid>
 </Window>
