@@ -24,6 +24,9 @@
                 <TextBlock Text="Add Account" FontSize="16" HorizontalAlignment="Right" Width="100" TextOptions.TextFormattingMode="Display"/>
             </StackPanel>
         </Button>
+
+
+
         <TextBlock 
             HorizontalAlignment="Left" 
 
@@ -42,21 +45,43 @@
             HorizontalAlignment="Left" 
             FontWeight="Medium"
             FontSize="13.5"
-            Margin="201,76,0,0" 
+            Margin="244,76,0,0" 
             Text="Running" 
             VerticalAlignment="Top"/>
         <TextBlock 
             HorizontalAlignment="Left" 
             FontWeight="Medium"
             FontSize="13.5"
-            Margin="282,76,0,0" 
+            Margin="321,76,0,0" 
             VerticalAlignment="Top" Height="21"><Run Text="Relaunch when closed"/><LineBreak/><Run/></TextBlock>
         <TextBlock 
             HorizontalAlignment="Left" 
             FontWeight="Medium"
             FontSize="13.5"
-            Margin="105,76,0,0" 
+            Margin="125,76,0,0" 
             VerticalAlignment="Top" Height="21"><Run Text="Description"/><LineBreak/><Run/></TextBlock>
+
+        <TextBox 
+            HorizontalAlignment="Left" 
+            Height="15" Margin="32,94,0,0"
+            FontWeight="Medium"
+            Text=""
+            BorderThickness="0 0 0 2"
+            VerticalAlignment="Top" 
+            Width="547"/>
+        <TextBlock 
+            HorizontalAlignment="Left" 
+            FontWeight="Medium"
+            FontSize="13.5"
+            Margin="670,158,0,0"
+            TextWrapping="Wrap"
+            VerticalAlignment="Top" Height="63" Width="103"><Run Text="Switch VPN on unexpected client behavior"/><LineBreak/><Run/></TextBlock>
+        <Button Style="{StaticResource addAccountBtn}" 
+            Margin="0,76,19,298" Height="Auto" Grid.Row="0" Width="149" Background="#bae8f7">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Trading Bot (WIP)" FontSize="16" HorizontalAlignment="Center" Width="124" TextOptions.TextFormattingMode="Display"/>
+            </StackPanel>
+        </Button>
 
 
 
