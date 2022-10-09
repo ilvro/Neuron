@@ -8,7 +8,8 @@
         Title="mainUserUI" Height="450" Width="800"
         VisualTextRenderingMode="ClearType"
         SnapsToDevicePixels="True"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanMinimize">
 
 
     <Grid>
@@ -33,37 +34,37 @@
             VerticalAlignment="Top"
             FontSize="28"
             FontWeight="Medium" 
-            Margin="42,20,0,0" Text="Accounts"/>
+            Margin="42,10,0,0" Text="Accounts"/>
         <TextBlock 
             HorizontalAlignment="Left" 
             FontWeight="Medium"
             FontSize="13.5"
-            Margin="42,76,0,0" 
+            Margin="42,71,0,0" 
             Text="Name" 
             VerticalAlignment="Top"/>
         <TextBlock 
             HorizontalAlignment="Left" 
             FontWeight="Medium"
             FontSize="13.5"
-            Margin="244,76,0,0" 
+            Margin="245,71,0,0" 
             Text="Running" 
             VerticalAlignment="Top"/>
         <TextBlock 
             HorizontalAlignment="Left" 
             FontWeight="Medium"
             FontSize="13.5"
-            Margin="321,76,0,0" 
+            Margin="329,73,0,0" 
             VerticalAlignment="Top" Height="21"><Run Text="Relaunch when closed"/><LineBreak/><Run/></TextBlock>
         <TextBlock 
             HorizontalAlignment="Left" 
             FontWeight="Medium"
             FontSize="13.5"
-            Margin="125,76,0,0" 
+            Margin="128,71,0,0" 
             VerticalAlignment="Top" Height="21"><Run Text="Description"/><LineBreak/><Run/></TextBlock>
 
-        <TextBox 
+        <TextBox
             HorizontalAlignment="Left" 
-            Height="15" Margin="32,94,0,0"
+            Height="15" Margin="42,89,0,0"
             FontWeight="Medium"
             Text=""
             BorderThickness="0 0 0 2"
@@ -82,6 +83,44 @@
                 <TextBlock Text="Trading Bot (WIP)" FontSize="16" HorizontalAlignment="Center" Width="124" TextOptions.TextFormattingMode="Display"/>
             </StackPanel>
         </Button>
+
+
+        <DataGrid 
+            Margin="42,109,205,31"
+            RowStyle="{DynamicResource DataGridRowStyle1}"
+            ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}"
+            CellStyle="{DynamicResource DataGridCellStyle1}"
+            x:Name="accountsDataGrid"
+            BorderThickness="0">
+            <DataGrid.Columns>
+                <DataGridCheckBoxColumn CanUserResize="False" Width="auto">
+                    <DataGridCheckBoxColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <CheckBox/>
+                        </DataTemplate>
+                    </DataGridCheckBoxColumn.HeaderTemplate>
+                </DataGridCheckBoxColumn>
+
+                <DataGridTemplateColumn Header="Name" IsReadOnly="True" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Border Width="25" Height="25" CornerRadius="50" Margin="0 0 10 0" Background="Red">
+                                    <TextBlock Text="..." VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" Margin="0 0 0 1"/>
+
+                                </Border>
+                                <TextBlock Text="..." VerticalAlignment="Center"></TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTextColumn Header="Description" IsReadOnly="True" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Running" IsReadOnly="True" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Relaunch when closed" IsReadOnly="True" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Options" IsReadOnly="True" Width="*"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
 
 
 
