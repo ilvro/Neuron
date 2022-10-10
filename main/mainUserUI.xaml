@@ -39,27 +39,27 @@
             HorizontalAlignment="Left" 
             FontWeight="Medium"
             FontSize="13.5"
-            Margin="42,71,0,0" 
+            Margin="101,71,0,0" 
             Text="Name" 
             VerticalAlignment="Top"/>
         <TextBlock 
             HorizontalAlignment="Left" 
             FontWeight="Medium"
             FontSize="13.5"
-            Margin="245,71,0,0" 
+            Margin="283,71,0,0" 
             Text="Running" 
             VerticalAlignment="Top"/>
         <TextBlock 
             HorizontalAlignment="Left" 
             FontWeight="Medium"
             FontSize="13.5"
-            Margin="324,73,0,0" 
-            VerticalAlignment="Top" Height="15"><Run Text="Relaunch when closed"/><LineBreak/><Run/></TextBlock>
+            Margin="361,71,0,0" 
+            VerticalAlignment="Top" Height="16" Width="136"><Run Text="Relaunch when closed"/><LineBreak/><Run/></TextBlock>
         <TextBlock 
             HorizontalAlignment="Left" 
             FontWeight="Medium"
             FontSize="13.5"
-            Margin="128,71,0,0" 
+            Margin="169,71,0,0" 
             VerticalAlignment="Top" Height="21"><Run Text="Description"/><LineBreak/><Run/></TextBlock>
 
         <TextBox
@@ -69,7 +69,7 @@
             Text=""
             BorderThickness="0 0 0 2"
             VerticalAlignment="Top" 
-            Width="547"/>
+            Width="563"/>
         <TextBlock 
             HorizontalAlignment="Left" 
             FontWeight="Medium"
@@ -91,7 +91,7 @@
             ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}"
             CellStyle="{DynamicResource DataGridCellStyle1}"
             x:Name="accountsDataGrid"
-            BorderThickness="0">
+            BorderThickness="0" Style="{DynamicResource DataGridStyle1}">
             <DataGrid.Columns>
                 <DataGridCheckBoxColumn CanUserResize="False" Width="auto">
                     <DataGridCheckBoxColumn.HeaderTemplate>
@@ -101,7 +101,7 @@
                     </DataGridCheckBoxColumn.HeaderTemplate>
                 </DataGridCheckBoxColumn>
 
-                <DataGridTemplateColumn Header="Name" IsReadOnly="True" Width="100">
+                <DataGridTemplateColumn Header="Name" IsReadOnly="True" Width="70">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -115,11 +115,11 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTextColumn Header="Description" IsReadOnly="True" Width="*"></DataGridTextColumn>
-                <DataGridTextColumn Header="Running" IsReadOnly="True" Width="60"></DataGridTextColumn>
-                <DataGridTextColumn Header="Relaunch when closed" IsReadOnly="True" Width="130"></DataGridTextColumn>
+                <DataGridTextColumn Header="Description" IsReadOnly="True" Width="110"></DataGridTextColumn>
+                <DataGridTextColumn Header="Running" IsReadOnly="True" Width="80"></DataGridTextColumn>
+                <DataGridTextColumn Header="Relaunch when closed" IsReadOnly="True" Width="160"></DataGridTextColumn>
 
-                <DataGridTemplateColumn Header="Options" IsReadOnly="True" Width="100">
+                <DataGridTemplateColumn Header="Options" IsReadOnly="True" Width="109">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
