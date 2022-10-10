@@ -53,8 +53,8 @@
             HorizontalAlignment="Left" 
             FontWeight="Medium"
             FontSize="13.5"
-            Margin="329,73,0,0" 
-            VerticalAlignment="Top" Height="21"><Run Text="Relaunch when closed"/><LineBreak/><Run/></TextBlock>
+            Margin="324,73,0,0" 
+            VerticalAlignment="Top" Height="15"><Run Text="Relaunch when closed"/><LineBreak/><Run/></TextBlock>
         <TextBlock 
             HorizontalAlignment="Left" 
             FontWeight="Medium"
@@ -101,7 +101,7 @@
                     </DataGridCheckBoxColumn.HeaderTemplate>
                 </DataGridCheckBoxColumn>
 
-                <DataGridTemplateColumn Header="Name" IsReadOnly="True" Width="*">
+                <DataGridTemplateColumn Header="Name" IsReadOnly="True" Width="100">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -116,9 +116,21 @@
                 </DataGridTemplateColumn>
 
                 <DataGridTextColumn Header="Description" IsReadOnly="True" Width="*"></DataGridTextColumn>
-                <DataGridTextColumn Header="Running" IsReadOnly="True" Width="*"></DataGridTextColumn>
-                <DataGridTextColumn Header="Relaunch when closed" IsReadOnly="True" Width="*"></DataGridTextColumn>
-                <DataGridTextColumn Header="Options" IsReadOnly="True" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Running" IsReadOnly="True" Width="60"></DataGridTextColumn>
+                <DataGridTextColumn Header="Relaunch when closed" IsReadOnly="True" Width="130"></DataGridTextColumn>
+
+                <DataGridTemplateColumn Header="Options" IsReadOnly="True" Width="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Style="{StaticResource gridRemoveButton}"></Button>
+                                <Button>
+                                    <Icon:PackIconMaterial Kind="DeleteOutline" Style="{StaticResource gridButtonIcon}"/>
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
 
