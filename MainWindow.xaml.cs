@@ -78,6 +78,26 @@ namespace Neuron_V2
                 Application.Current.Shutdown();
             }
 
+            if (Directory.Exists(NeuronF.currentPath() + @"\main\accountData.json").ToString() != "True") // check for account data
+            {
+                MessageBox.Show("couldnt find account data");
+
+
+                List<Account.AccountData> data = new List<Account.AccountData>();
+                data.Add(new Account.AccountData()
+                {
+                    Username = "",
+                    Description = "",
+                    lastPlace = "",
+                    relaunchWhenClosed = false,
+                    Cookie = ""
+
+                });
+
+                string json = System.Text.Json.JsonSerializer.Serialize(data);
+                //File.WriteAllText(NeuronF.currentPath() + @"\main\login.json", json); make a file later its 11pm
+            }
+
             // check if roblox is open; if it is, prompt to close it. this is because multi roblox wont work if its already open
             Process[] processes = Process.GetProcessesByName("RobloxPlayerBeta");
             if (processes.Length > 0)
@@ -85,7 +105,14 @@ namespace Neuron_V2
                 MessageBoxResult dlgResult = MessageBox.Show("Close ROBLOX? If you press no, you won't be able to use multiple accounts.", "Neuron", MessageBoxButton.YesNo);
                 if (dlgResult.ToString() == "Yes")
                 {
-                    processes[0].Kill();
+                    try
+                    {
+                        processes[0].Kill();
+                    }
+                    catch
+                    {
+                        
+                    }
                 }
             }
 

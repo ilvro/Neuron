@@ -14,17 +14,14 @@ namespace Neuron
 {
     class Account
     {
-        public string Username;
-        public string Cookie;
+        public string Username { get; set; }
+        public string Description { get; set; }
+        public string lastPlace { get; set; }
+        public bool relaunchWhenClosed { get; set; }
+        public string Cookie { get; set; }
         private static readonly HttpClient client = new HttpClient();
 
-        public Account(string auser, string acookie)
-        {
-            Username = auser;
-            Cookie = acookie;
 
-
-        }
 
         public string validateCookie()
         {
@@ -112,13 +109,14 @@ namespace Neuron
             return "";
         }
 
+
         public class AccountData
         {
-            public string robloxID { get; set; }
-            public string discordID { get; set; }
-            public string ROBLOSECURITY { get; set; }
+            public string Username { get; set; }
+            public string Description { get; set; }
             public string lastPlace { get; set; }
-            public string Key { get; set; }
+            public bool relaunchWhenClosed { get; set; }
+            public string Cookie { get; set; }
         }
     }
 }
