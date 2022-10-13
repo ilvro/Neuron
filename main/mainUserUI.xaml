@@ -13,7 +13,7 @@
 
 
     <Grid>
-        <Button Style="{StaticResource addAccountBtn}" 
+        <Button Style="{StaticResource addAccountBtn}" PreviewMouseLeftButtonDown="addAccountBtn_MouseLeftButtonDown"
             Margin="0,23,10,351" Height="Auto" Grid.Row="0" Width="149">
             <StackPanel Orientation="Horizontal">
                 <Icon:PackIconMaterial 
@@ -23,6 +23,7 @@
                     Height="11"
                     Margin="0 1 8 0"/>
                 <TextBlock Text="Add Account" FontSize="16" HorizontalAlignment="Right" Width="100" TextOptions.TextFormattingMode="Display"/>
+                
             </StackPanel>
         </Button>
 
@@ -76,8 +77,9 @@
                     </DataGridCheckBoxColumn.HeaderTemplate>
                 </DataGridCheckBoxColumn>
                 -->
+                
 
-                <DataGridTemplateColumn Header="Name" IsReadOnly="True" Width="70">
+                <DataGridTemplateColumn Header="Name" IsReadOnly="True" Width="100">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -88,7 +90,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTextColumn Header="Description" IsReadOnly="True" Width="110" Binding="{Binding Description}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Description" IsReadOnly="True" Width="120" Binding="{Binding Description}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Running" IsReadOnly="True" Width="80"></DataGridTextColumn>
                 <DataGridTextColumn Header="Relaunch when closed" IsReadOnly="True" Width="160"></DataGridTextColumn>
 
@@ -96,10 +98,11 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Button Style="{StaticResource gridPlayButton}">
+                                <Button Style="{StaticResource gridPlayButton}" PreviewMouseLeftButtonDown="playBtn_MouseLeftButtonDown">
                                     <Icon:PackIconMaterial Kind="PlayOutline" Style="{StaticResource gridButtonIcon}" Margin="2.5 0 0 0"/>
+                                    
                                 </Button>
-                                <Button Margin="5 0 0 0" Style="{StaticResource gridRemoveButton}">
+                                <Button Margin="5 0 0 0" Style="{StaticResource gridRemoveButton}" PreviewMouseLeftButtonDown="deleteBtn_MouseLeftButtonDown">
                                     <Icon:PackIconMaterial Kind="DeleteOutline" Style="{StaticResource gridButtonIcon}"/>
                                 </Button>
                             </StackPanel>

@@ -31,11 +31,14 @@ namespace Neuron_V2.main
             new Mutex(true, "ROBLOX_singletonMutex"); // thx alt manager
             ObservableCollection<Account> accounts = new ObservableCollection<Account>();
             accounts.Add(new Account {Username="gui2", Description="the", lastPlace="lastplace", relaunchWhenClosed=false,Cookie="somecookie" });
-            //accounts.Add(new Account("memoriaee", "description", "lastplace", false, "cookie"));
-            //accounts.Add(new Account("ilvro", "chess cool", "lastplace", false, "cookie"));
-            //accounts.Add(new Account("envysor", "description", "lastplace", false, "cookie"));
+            accounts.Add(new Account { Username = "memoriaee", Description = "description", lastPlace = "lastplace", relaunchWhenClosed = false, Cookie = "cookie" });
+            accounts.Add(new Account { Username = "ilvro", Description = "chess cool", lastPlace = "lastplace", relaunchWhenClosed = false, Cookie = "cookie" });
+            accounts.Add(new Account { Username = "envysor", Description = "description", lastPlace = "lastplace", relaunchWhenClosed = false, Cookie = "cookie" });
+
+
 
             accountsDataGrid.ItemsSource = accounts;
+            
 
         }
         public void startUp()
@@ -43,6 +46,22 @@ namespace Neuron_V2.main
             //new Mutex(true, "ROBLOX_singletonMutex"); // thx alt manager
             this.Title = "Neuron";
 
+        }
+
+
+        private void addAccountBtn_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            MessageBox.Show("add acccount pressed");
+        }
+
+        private void playBtn_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            MessageBox.Show("play button pressed");
+        }
+
+        private void deleteBtn_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            MessageBox.Show("delete button pressed");
         }
     }
 }

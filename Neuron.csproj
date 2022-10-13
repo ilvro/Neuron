@@ -232,10 +232,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="main\Account.cs" />
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="main\Browser.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -7,7 +7,6 @@
 
     <Application.Resources>
         <Style x:Key="addAccountBtn" TargetType="{x:Type Button}">
-
             <Setter Property="Background" Value="#199dc9"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
@@ -99,7 +98,6 @@
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="#358ee9"></Setter>
-                    <Setter Property="Foreground" Value="#ffffff"></Setter>
                 </Trigger>
 
                 <Trigger Property="IsSelected" Value="True">
@@ -228,6 +226,7 @@
             </Setter>
         </Style>
         <Style x:Key="DataGridStyle1" TargetType="{x:Type DataGrid}">
+            <!--<Setter Property="Background" Value="Transparent"/>-->
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Foreground" Value="#222528"/>
             <Setter Property="BorderThickness" Value="0"/>
