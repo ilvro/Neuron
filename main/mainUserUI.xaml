@@ -23,7 +23,7 @@
                     Height="11"
                     Margin="0 1 8 0"/>
                 <TextBlock Text="Add Account" FontSize="16" HorizontalAlignment="Right" Width="100" TextOptions.TextFormattingMode="Display"/>
-                
+
             </StackPanel>
         </Button>
 
@@ -60,13 +60,13 @@
         </Button>
 
 
-        <DataGrid 
-            Margin="42,67,205,73"
+        <DataGrid
+            Margin="42,67,205,40"
             RowStyle="{DynamicResource DataGridRowStyle1}"
             ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}"
             CellStyle="{DynamicResource DataGridCellStyle1}"
             x:Name="accountsDataGrid"
-            BorderThickness="0" Style="{DynamicResource DataGridStyle1}">
+            BorderThickness="0" Style="{DynamicResource DataGridStyle1}" Grid.Row="0">
             <DataGrid.Columns>
                 <!--
                 <DataGridCheckBoxColumn CanUserResize="False" Width="auto">
@@ -77,13 +77,13 @@
                     </DataGridCheckBoxColumn.HeaderTemplate>
                 </DataGridCheckBoxColumn>
                 -->
-                
+
 
                 <DataGridTemplateColumn Header="Name" IsReadOnly="True" Width="100">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                              
+
                                 <TextBlock Text="{Binding Username}" VerticalAlignment="Center"></TextBlock>
                             </StackPanel>
                         </DataTemplate>
@@ -100,7 +100,7 @@
                             <StackPanel Orientation="Horizontal">
                                 <Button Style="{StaticResource gridPlayButton}" PreviewMouseLeftButtonDown="playBtn_MouseLeftButtonDown">
                                     <Icon:PackIconMaterial Kind="PlayOutline" Style="{StaticResource gridButtonIcon}" Margin="2.5 0 0 0"/>
-                                    
+
                                 </Button>
                                 <Button Margin="5 0 0 0" Style="{StaticResource gridRemoveButton}" PreviewMouseLeftButtonDown="deleteBtn_MouseLeftButtonDown">
                                     <Icon:PackIconMaterial Kind="DeleteOutline" Style="{StaticResource gridButtonIcon}"/>

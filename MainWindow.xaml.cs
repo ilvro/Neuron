@@ -29,10 +29,10 @@ namespace Neuron_V2
             this.Title = "Neuron";
 
 
-            if (File.Exists(NeuronF.currentPath() + @"\main\login.json").ToString() == "True") // check if theyre already logged in
+            if (File.Exists(NeuronF.currentPath() + @"\main\settings\login.json").ToString() == "True") // check if theyre already logged in
             {
-                keyTextAndBorder.Text = NeuronF.getJsonProperty(@"\main\login.json", "Key");
-                IDTextAndBorder.Text = NeuronF.getJsonProperty(@"\main\login.json", "discordID");
+                keyTextAndBorder.Text = NeuronF.getJsonProperty(@"\main\settings\login.json", "Key");
+                IDTextAndBorder.Text = NeuronF.getJsonProperty(@"\main\settings\login.json", "discordID");
                 
                 if (NeuronF.checkWhitelist(keyTextAndBorder.Text, IDTextAndBorder.Text, "login") == "qptoe5?")
                    {
@@ -76,26 +76,6 @@ namespace Neuron_V2
                 //MessageBox.Show("Couldn't find folder 'main'. This could be due to a download error.\nTry downloading again.");
                 MessageBox.Show("wrong directory");
                 Application.Current.Shutdown();
-            }
-
-            if (Directory.Exists(NeuronF.currentPath() + @"\main\accountData.json").ToString() != "True") // check for account data
-            {
-                MessageBox.Show("couldnt find account data");
-
-
-                List<Account.AccountData> data = new List<Account.AccountData>();
-                data.Add(new Account.AccountData()
-                {
-                    Username = "",
-                    Description = "",
-                    lastPlace = "",
-                    relaunchWhenClosed = false,
-                    Cookie = ""
-
-                });
-
-                string json = System.Text.Json.JsonSerializer.Serialize(data);
-                //File.WriteAllText(NeuronF.currentPath() + @"\main\login.json", json); make a file later its 11pm
             }
 
             // check if roblox is open; if it is, prompt to close it. this is because multi roblox wont work if its already open
@@ -149,7 +129,7 @@ namespace Neuron_V2
             }
         }
 
-        private void btnLogin_Click(object sender, RoutedEventArgs e) // checks whitelist and generates auth token
+        private void btnLogin_Click(object sender, RoutedEventArgs e) // checks whitelist
         {
             if (NeuronF.checkWhitelist(keyTextAndBorder.Text, IDTextAndBorder.Text, "login") == "qptoe5?")
             {
@@ -164,7 +144,7 @@ namespace Neuron_V2
                 });
 
                 string json = System.Text.Json.JsonSerializer.Serialize(data);
-                File.WriteAllText(NeuronF.currentPath() + @"\main\login.json", json);
+                File.WriteAllText(NeuronF.currentPath() + @"\main\settings\login.json", json);
 
                 var mainNeuron = new mainUserUI();
                 mainNeuron.ShowDialog(); // this pauses this window's code

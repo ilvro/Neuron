@@ -1,4 +1,5 @@
 ﻿//using Newtonsoft.Json.Linq;
+using Neuron_V2.main;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace Neuron
         public string Username { get; set; }
         public string Description { get; set; }
         public string lastPlace { get; set; }
-        public bool relaunchWhenClosed { get; set; }
+        public string relaunchWhenClosed { get; set; }
         public string Cookie { get; set; }
         private static readonly HttpClient client = new HttpClient();
 
@@ -46,6 +47,17 @@ namespace Neuron
                 }
             }
             throw new Exception("Failed to get X-CSRF-Token.");
+        }
+
+        public static string getUsername(string Cookie)
+        {
+            var client = new RestClient("https://users.roblox.com/v1/users/authenticated");
+            Uri url = new Uri("https://users.roblox.com/v1/users/authenticated");
+
+            var TokenRequest = new RestRequest("", Method.Get);
+            client.AddCookie(".ROBLOSECURITY", Cookie, "", url.Host);
+            var response = client.Execute(TokenRequest);
+            return Account.getBetween(response.Content, "name\":\"", "\"");
         }
 
         public string getAuthTicket()
@@ -91,10 +103,6 @@ namespace Neuron
             return "";
         }
 
-        public string addAccount()
-        {
-            return "";
-        }
 
         public static string getBetween(string strSource, string strStart, string strEnd)
         {

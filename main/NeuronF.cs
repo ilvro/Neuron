@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Neuron;
+using Newtonsoft.Json;
 using RestSharp;
 using SlavaGu.ConsoleAppLauncher;
 using System;
@@ -30,6 +31,7 @@ namespace Neuron_V2.main
 
         public static string randomString(int length)
         {
+
             Random random = new Random();
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             return new string(Enumerable.Repeat(chars, length)
@@ -110,7 +112,7 @@ namespace Neuron_V2.main
                 }
             }
             string toReturn = "false";
-            if (File.Exists(neuronPath + @"\main\login.json").ToString() == "True") // check if theyre already logged in
+            if (File.Exists(neuronPath + path).ToString() == "True") // check if theyre already logged in
             {
                 using (StreamReader r = new StreamReader(neuronPath + @path))
                 {
@@ -128,7 +130,35 @@ namespace Neuron_V2.main
 
         public static void writeToJson(string path, string content)
         {
-            
+        }
+
+        public static void addAccount(string Cookie)
+        {
+            string name = Account.getUsername(Cookie);
+            if (File.Exists(NeuronF.currentPath() + @"\main\settings\"+name+"_accountData.json").ToString() != "True") // ...
+            {
+                List<Account.AccountData> data = new List<Account.AccountData>();
+                data.Add(new Account.AccountData()
+                {
+                    Username = name,
+                    Description = "",
+                    lastPlace = "",
+                    relaunchWhenClosed = false,
+                    Cookie = Cookie
+
+                });
+
+                string json = System.Text.Json.JsonSerializer.Serialize(data);
+                File.WriteAllText(NeuronF.currentPath() + @"\main\settings\" + name + "_accountData.json", json);
+            }
+            else
+            {
+                MessageBox.Show("This account is already added.");
+            }
+
+            //MessageBox.Show(Application.StartupPath);
+
+            //MessageBox.Show("added account" + name);
         }
 
     }

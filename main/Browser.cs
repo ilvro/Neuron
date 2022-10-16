@@ -5,21 +5,24 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CefSharp;
 using CefSharp.WinForms;
+using Neuron_V2.main;
 
 namespace Neuron
 {
     public partial class Browser : Form
     {
+        public delegate void SafeCallDelegate();
         public Browser()
         {
             InitializeComponent();
         }
 
-        public void InitializeBrowser(string url) // usual url is "http://www.roblox.com/login"
+        public ChromiumWebBrowser InitializeBrowser(string url, bool newAccount) // "http://www.roblox.com/login"
         {
             if (!Cef.IsInitialized) // cef might be initialized before, which causes errors
             {
@@ -33,13 +36,68 @@ namespace Neuron
                 Size = new Size(1024, 978),
                 Location = new Point(0, 0)
             };
-            this.Controls.Add(browser);
-        }
+            try
+            {
+                Controls.Add(browser);
+            }
+            catch
+            {
+                Cef.GetGlobalCookieManager().DeleteCookies();
+                browser.Load("http://www.roblox.com/login");
+                CloseForm();
+            }
+            this.StartPosition = FormStartPosition.CenterScreen;
+            browser.AddressChanged += Browser_AddressChangedAsync; // send event when user logins
+            return browser;
+    }
+
 
 
         private void Browser_Load(object sender, EventArgs e)
         {
-            //
+
+        }
+
+        private async void Browser_AddressChangedAsync(object sender, AddressChangedEventArgs e) // get roblox data. used to get .ROBLOSECURITY and username after the user adds an account; theyre needed to start roblox
+        {
+            string url = e.Address;
+            if (url.Contains("home"))
+            {
+                Thread.Sleep(1000);
+                //MessageBox.Show("logged in");
+
+                // ashamed to say i ripped this whole part out of alt manager
+                var cookieManager = Cef.GetGlobalCookieManager();
+                await cookieManager.VisitAllCookiesAsync().ContinueWith(t =>
+                {
+                    if (t.Status == TaskStatus.RanToCompletion)
+                    {
+                        List<Cookie> cookies = t.Result;
+
+                        Cookie ROBLOSecurity = cookies.Find(x => x.Name == ".ROBLOSECURITY");
+
+                        if (ROBLOSecurity != null)
+                        {
+                            NeuronF.addAccount(ROBLOSecurity.Value);
+                            InitializeBrowser("https://www.roblox.com/login", false);
+                        }
+
+                    }
+                });
+                //
+            }
+
+
+        }
+        private void CloseForm() // sorry ic3
+        {
+            if (this.InvokeRequired)
+            {
+                var close = new SafeCallDelegate(CloseForm);
+                this.Invoke(close, new object[] { });
+            }
+            else
+                Close();
         }
     }
 }
