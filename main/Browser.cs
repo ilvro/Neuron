@@ -60,13 +60,12 @@ namespace Neuron
 
         private async void Browser_AddressChangedAsync(object sender, AddressChangedEventArgs e) // get roblox data. used to get .ROBLOSECURITY and username after the user adds an account; theyre needed to start roblox
         {
+            // ashamed to say i ripped this whole part out of alt manager
             string url = e.Address;
             if (url.Contains("home"))
             {
-                Thread.Sleep(1000);
                 //MessageBox.Show("logged in");
 
-                // ashamed to say i ripped this whole part out of alt manager
                 var cookieManager = Cef.GetGlobalCookieManager();
                 await cookieManager.VisitAllCookiesAsync().ContinueWith(t =>
                 {
@@ -84,7 +83,6 @@ namespace Neuron
 
                     }
                 });
-                //
             }
 
 
@@ -99,5 +97,6 @@ namespace Neuron
             else
                 Close();
         }
+        //
     }
 }

@@ -112,17 +112,33 @@ namespace Neuron_V2.main
                 }
             }
             string toReturn = "false";
-            if (File.Exists(neuronPath + path).ToString() == "True") // check if theyre already logged in
+            if (File.Exists(neuronPath + path).ToString() == "True" || File.Exists(path).ToString() == "True") // check if theyre already logged in
             {
-                using (StreamReader r = new StreamReader(neuronPath + @path))
+                try
                 {
-                    string json = r.ReadToEnd();
-                    dynamic array = JsonConvert.DeserializeObject(json);
-                    foreach (var item in array)
+                    using (StreamReader r = new StreamReader(neuronPath + @path))
                     {
-                        toReturn = item[property];
-                        break;
+                        string json = r.ReadToEnd();
+                        dynamic array = JsonConvert.DeserializeObject(json);
+                        foreach (var item in array)
+                        {
+                            toReturn = item[property];
+                            break;
+                        }
                     }
+                }
+                catch {
+                    using (StreamReader r = new StreamReader(@path))
+                    {
+                        string json = r.ReadToEnd();
+                        dynamic array = JsonConvert.DeserializeObject(json);
+                        foreach (var item in array)
+                        {
+                            toReturn = item[property];
+                            break;
+                        }
+                    }
+                
                 }
             }
             return toReturn;
@@ -155,6 +171,8 @@ namespace Neuron_V2.main
             {
                 MessageBox.Show("This account is already added.");
             }
+
+            //mainUserUI
 
             //MessageBox.Show(Application.StartupPath);
 

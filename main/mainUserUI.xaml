@@ -11,8 +11,8 @@
         WindowStartupLocation="CenterScreen"
         ResizeMode="CanMinimize">
 
-
     <Grid>
+        
         <Button Style="{StaticResource addAccountBtn}" PreviewMouseLeftButtonDown="addAccountBtn_MouseLeftButtonDown"
             Margin="0,23,10,351" Height="Auto" Grid.Row="0" Width="149">
             <StackPanel Orientation="Horizontal">
@@ -98,12 +98,13 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Button Style="{StaticResource gridPlayButton}" PreviewMouseLeftButtonDown="playBtn_MouseLeftButtonDown">
+                                <Button Style="{StaticResource gridPlayButton}" PreviewMouseLeftButtonUp="playBtn_MouseLeftButtonUp">
                                     <Icon:PackIconMaterial Kind="PlayOutline" Style="{StaticResource gridButtonIcon}" Margin="2.5 0 0 0"/>
 
                                 </Button>
-                                <Button Margin="5 0 0 0" Style="{StaticResource gridRemoveButton}" PreviewMouseLeftButtonDown="deleteBtn_MouseLeftButtonDown">
+                                <Button Margin="5 0 0 0" Style="{StaticResource gridRemoveButton}" PreviewMouseLeftButtonUp="deleteBtn_MouseLeftButtonUp">
                                     <Icon:PackIconMaterial Kind="DeleteOutline" Style="{StaticResource gridButtonIcon}"/>
+
                                 </Button>
                             </StackPanel>
                         </DataTemplate>

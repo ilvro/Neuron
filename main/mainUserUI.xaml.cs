@@ -19,6 +19,7 @@ using System.Windows.Shapes;
 using CefSharp;
 using CefSharp.WinForms;
 using System.IO;
+using System.Data;
 
 namespace Neuron_V2.main
 {
@@ -40,10 +41,6 @@ namespace Neuron_V2.main
             //new Mutex(true, "ROBLOX_singletonMutex"); // thx alt manager
             this.Title = "Neuron";
             ObservableCollection<Account> accounts = new ObservableCollection<Account>();
-            //accounts.Add(new Account { Username = "gui2", Description = "the", lastPlace = "lastplace", relaunchWhenClosed = false, Cookie = "somecookie" });
-            //accounts.Add(new Account { Username = "memoriaee", Description = "description", lastPlace = "lastplace", relaunchWhenClosed = false, Cookie = "cookie" });
-            //accounts.Add(new Account { Username = "ilvro", Description = "chess cool", lastPlace = "lastplace", relaunchWhenClosed = false, Cookie = "cookie" });
-            //accounts.Add(new Account { Username = "envysor", Description = "description", lastPlace = "lastplace", relaunchWhenClosed = false, Cookie = "cookie" });
 
 
             //accountsDataGrid.ItemsSource = accounts;
@@ -52,10 +49,10 @@ namespace Neuron_V2.main
             foreach (string fileName in Directory.GetFiles(settingsPath))
             {
                 if (fileName.Contains("_accountData")) {
-                    if (NeuronF.getJsonProperty(settingsPath + fileName, "Username").Length > 0)
+                    if (NeuronF.getJsonProperty(fileName, "Username").Length > 0)
                     {
                         // theres probably a much better way to do this
-                        accounts.Add(new Account { Username = NeuronF.getJsonProperty(settingsPath + fileName, "Username"), Description = NeuronF.getJsonProperty(settingsPath + fileName, "Description"), lastPlace = NeuronF.getJsonProperty(settingsPath + fileName, "lastPlace"), relaunchWhenClosed = NeuronF.getJsonProperty(settingsPath + fileName, "relaunchWhenClosed"), Cookie = NeuronF.getJsonProperty(settingsPath + fileName, "Cookie") });
+                        accounts.Add(new Account { Username = NeuronF.getJsonProperty(fileName, "Username"), Description = NeuronF.getJsonProperty(fileName, "Description"), lastPlace = NeuronF.getJsonProperty(fileName, "lastPlace"), relaunchWhenClosed = NeuronF.getJsonProperty(fileName, "relaunchWhenClosed"), Cookie = NeuronF.getJsonProperty(fileName, "Cookie") });
                     }
                 }
             }
@@ -63,22 +60,72 @@ namespace Neuron_V2.main
             accountsDataGrid.ItemsSource = accounts;
 
         }
-        private void addAccountBtn_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+
+        public void refreshGrid()
+        {
+            ObservableCollection<Account> accounts = new ObservableCollection<Account>();
+            string settingsPath = NeuronF.currentPath() + @"\main\settings\";
+
+            foreach (string fileName in Directory.GetFiles(settingsPath))
+            {
+                if (fileName.Contains("_accountData"))
+                {
+                    if (NeuronF.getJsonProperty(fileName, "Username").Length > 0)
+                    {
+                        // theres probably a much better way to do this
+                        accounts.Add(new Account { Username = NeuronF.getJsonProperty(fileName, "Username"), Description = NeuronF.getJsonProperty(fileName, "Description"), lastPlace = NeuronF.getJsonProperty(fileName, "lastPlace"), relaunchWhenClosed = NeuronF.getJsonProperty(fileName, "relaunchWhenClosed"), Cookie = NeuronF.getJsonProperty(fileName, "Cookie") });
+                    }
+                }
+            }
+
+            accountsDataGrid.ItemsSource = accounts;
+        }
+        private void addAccountBtn_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             Browser browser = new Browser();
             browser.InitializeBrowser("https://www.roblox.com/login", true);
             browser.ShowDialog();
+            refreshGrid();
         }
 
-        private void playBtn_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void playBtn_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            MessageBox.Show("play button pressed");
+            for (var vis = sender as Visual; vis != null; vis = VisualTreeHelper.GetParent(vis) as Visual)
+            {
+                if (vis is DataGridRow)
+                {
+
+                    DataGridRow row = (DataGridRow)vis;
+                    ((Account)row.DataContext).openRoblox();
+                }
+            }
         }
 
-        private void deleteBtn_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+
+        private void deleteBtn_MouseLeftButtonUp(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("delete button pressed");
-            MessageBox.Show(accountsDataGrid.CurrentCell.ToString());
+            for (var vis = sender as Visual; vis != null; vis = VisualTreeHelper.GetParent(vis) as Visual) {
+                if (vis is DataGridRow)
+                {
+                    DataGridRow row = (DataGridRow)vis;
+                    string username = ((Account)row.DataContext).Username;
+
+                    MessageBoxResult dlgResult = MessageBox.Show("Are you sure you want to delete this account? ("+username+")", "Neuron", MessageBoxButton.YesNo);
+                    if (dlgResult.ToString() == "Yes")
+                    {
+                        string settingsPath = NeuronF.currentPath() + @"\main\settings\";
+                        foreach (string fileName in Directory.GetFiles(settingsPath))
+                        {
+                            if (fileName.Contains("_accountData") && fileName.Contains(username))
+                            {
+                                File.Delete(fileName);
+                                refreshGrid();
+                            }
+                        }
+                    }
+                    break;
+                }
+            }
         }
     }
 }
