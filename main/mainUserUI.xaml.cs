@@ -96,7 +96,10 @@ namespace Neuron_V2.main
                 {
 
                     DataGridRow row = (DataGridRow)vis;
-                    ((Account)row.DataContext).openRoblox();
+                    // ((Account)row.DataContext).openRoblox();
+                    customInputAndButtonMessageBox messageBox = new customInputAndButtonMessageBox();
+                    messageBox.Title = ((Account)row.DataContext).Username;
+                    messageBox.ShowDialog();
                 }
             }
         }

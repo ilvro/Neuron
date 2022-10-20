@@ -12,7 +12,7 @@
         ResizeMode="CanMinimize">
 
     <Grid>
-        
+
         <Button Style="{StaticResource addAccountBtn}" PreviewMouseLeftButtonDown="addAccountBtn_MouseLeftButtonDown"
             Margin="0,23,10,351" Height="Auto" Grid.Row="0" Width="149">
             <StackPanel Orientation="Horizontal">
@@ -44,7 +44,7 @@
             Text=""
             BorderThickness="0 0 0 2"
             VerticalAlignment="Top" 
-            Width="547"/>
+            Width="570"/>
         <TextBlock 
             HorizontalAlignment="Left" 
             FontWeight="Medium"
@@ -61,7 +61,7 @@
 
 
         <DataGrid
-            Margin="42,67,205,40"
+            Margin="42,67,173,40"
             RowStyle="{DynamicResource DataGridRowStyle1}"
             ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}"
             CellStyle="{DynamicResource DataGridCellStyle1}"

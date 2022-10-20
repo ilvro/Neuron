@@ -248,12 +248,19 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="main\customInputAndButtonMessageBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="main\mainUserUI.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="main\customInputAndButtonMessageBox.xaml.cs">
+      <DependentUpon>customInputAndButtonMessageBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="main\mainUserUI.xaml.cs">
       <DependentUpon>mainUserUI.xaml</DependentUpon>
     </Compile>

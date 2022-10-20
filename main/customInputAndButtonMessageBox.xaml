@@ -1,0 +1,84 @@
+﻿<Window x:Class="Neuron_V2.main.customInputAndButtonMessageBox"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Neuron_V2.main" xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        mc:Ignorable="d"
+        Title="customInputAndButtonMessageBox" Height="288.934" Width="421.311"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+    <Grid Margin="0,10,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="96*"/>
+            <RowDefinition Height="29*"/>
+        </Grid.RowDefinitions>
+        <Button
+            Style="{StaticResource gridPlayButton}"
+            x:Name="btnLogin"
+            Content="Open App" 
+            Foreground="White"
+            FontSize="18"
+            FontFamily="Montserrat"
+            FontWeight="Regular"
+            BorderThickness="0" RenderTransformOrigin="0.5,0.8" Margin="65,50,123,102"
+            TextOptions.TextFormattingMode="Display"
+            SnapsToDevicePixels="True"
+            UseLayoutRounding="True"
+            PreviewMouseLeftButtonUp="playBtn2_PreviewMouseLeftButtonUp">
+
+            <Button.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="-1.364"/>
+                    <RotateTransform/>
+                    <TranslateTransform X="-0.476"/>
+                </TransformGroup>
+            </Button.RenderTransform>
+
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Width="Auto" Height="40"
+                            CornerRadius="4"
+                            Background="{TemplateBinding Background}" Margin="55,0,0,0">
+                        <ContentPresenter VerticalAlignment="Center"
+                                          HorizontalAlignment="Center"/>
+
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <TextBox x:Name="gameIDLine"
+            FontSize="13"
+            FontWeight="Normal"
+            FontFamily="Montserrat"
+            FontStyle="Normal"
+            Background="Transparent"
+            Foreground="Black"
+            CaretBrush="LightGray"
+            BorderBrush="DarkGray"
+            BorderThickness="0,0,0,2"
+            Opacity="1"
+                 
+            Margin="131,150,132,5" TextChanged="gameIDLine_TextChanged" Panel.ZIndex="2"/>
+
+        <TextBlock 
+            Margin="198,106,0,0"
+            Text="or" 
+            VerticalAlignment="Top"
+            FontWeight="SemiBold"
+            FontFamily="Montserrat"
+            FontSize="16"
+            Foreground="Black" Height="20" Width="16" HorizontalAlignment="Left"/>
+        <TextBlock x:Name="IDText"
+                 FontSize="13"
+                 FontWeight="Medium"
+                 FontFamily="Montserrat"
+                 FontStyle="Italic"
+                 Background="Transparent"
+                 Text="Put the game ID here."
+                 Opacity="0.3"
+                 
+                Margin="131,150,132,15"/>
+    </Grid>
+</Window>
