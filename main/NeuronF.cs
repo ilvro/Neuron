@@ -160,7 +160,8 @@ namespace Neuron_V2.main
                     Description = "",
                     lastPlace = "",
                     relaunchWhenClosed = false,
-                    Cookie = Cookie
+                    Cookie = Cookie,
+                    lastMethod = ""
 
                 });
 

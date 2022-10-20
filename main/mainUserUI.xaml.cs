@@ -95,11 +95,14 @@ namespace Neuron_V2.main
                 if (vis is DataGridRow)
                 {
 
+                    string settingsPath = NeuronF.currentPath() + @"\main\settings\";
                     DataGridRow row = (DataGridRow)vis;
-                    // ((Account)row.DataContext).openRoblox();
                     customInputAndButtonMessageBox messageBox = new customInputAndButtonMessageBox();
                     messageBox.Title = ((Account)row.DataContext).Username;
+                    // use last game id, if there is one
+                    messageBox.gameIDLine.Text = NeuronF.getJsonProperty(settingsPath + ((Account)row.DataContext).Username + "_accountData.json", "lastPlace");
                     messageBox.ShowDialog();
+
                 }
             }
         }

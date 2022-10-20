@@ -20,6 +20,7 @@ namespace Neuron
         public string lastPlace { get; set; }
         public string relaunchWhenClosed { get; set; }
         public string Cookie { get; set; }
+        public string lastMethod { get; set; }
         private static readonly HttpClient client = new HttpClient();
 
 
@@ -125,6 +126,7 @@ namespace Neuron
             public string lastPlace { get; set; }
             public bool relaunchWhenClosed { get; set; }
             public string Cookie { get; set; }
+            public string lastMethod { get; set; }
         }
     }
 }

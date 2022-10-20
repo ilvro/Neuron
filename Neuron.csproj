@@ -305,9 +305,6 @@
     <Resource Include="main\packages.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="main\cookies.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="main\settings\" />
   </ItemGroup>
   <ItemGroup>

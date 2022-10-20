@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Neuron_V2.main" xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d"
-        Title="customInputAndButtonMessageBox" Height="288.934" Width="421.311"
+        Title="customInputAndButtonMessageBox" Height="288.934" Width="527.311"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize">
-    <Grid Margin="0,10,0,0">
+    <Grid Margin="10,10,4,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="96*"/>
             <RowDefinition Height="29*"/>
@@ -21,11 +21,11 @@
             FontSize="18"
             FontFamily="Montserrat"
             FontWeight="Regular"
-            BorderThickness="0" RenderTransformOrigin="0.5,0.8" Margin="65,50,123,102"
+            BorderThickness="0" RenderTransformOrigin="0.5,0.8" Margin="62,44,126,95"
             TextOptions.TextFormattingMode="Display"
             SnapsToDevicePixels="True"
             UseLayoutRounding="True"
-            PreviewMouseLeftButtonUp="playBtn2_PreviewMouseLeftButtonUp">
+            PreviewMouseLeftButtonUp="playBtn2_PreviewMouseLeftButtonUp" Height="53">
 
             <Button.RenderTransform>
                 <TransformGroup>
@@ -48,6 +48,16 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
+
+
+        <TextBlock 
+            Margin="241,110,0,0"
+            Text="or" 
+            VerticalAlignment="Top"
+            FontWeight="SemiBold"
+            FontFamily="Montserrat"
+            FontSize="16"
+            Foreground="Black" Height="20" Width="16" HorizontalAlignment="Left"/>
         <TextBox x:Name="gameIDLine"
             FontSize="13"
             FontWeight="Normal"
@@ -60,16 +70,27 @@
             BorderThickness="0,0,0,2"
             Opacity="1"
                  
-            Margin="131,150,132,5" TextChanged="gameIDLine_TextChanged" Panel.ZIndex="2"/>
-
-        <TextBlock 
-            Margin="198,106,0,0"
-            Text="or" 
-            VerticalAlignment="Top"
-            FontWeight="SemiBold"
-            FontFamily="Montserrat"
-            FontSize="16"
-            Foreground="Black" Height="20" Width="16" HorizontalAlignment="Left"/>
+            Margin="131,155,132,5" TextChanged="gameIDLine_TextChanged" Panel.ZIndex="2"/>
+        <TextBlock x:Name="WarningText"
+                 FontSize="16"
+                 FontWeight="Medium"
+                 FontFamily="Montserrat"
+                 FontStyle="Italic"
+                 Background="Transparent"
+                 Text="NOTE: 'Open App' disables the option 'relaunch when closed'."
+                 Opacity="0.3"
+                 
+                Margin="38,0,18,168"/>
+        <TextBlock x:Name="WarningText2"
+                 FontSize="13"
+                 FontWeight="Medium"
+                 FontFamily="Montserrat"
+                 FontStyle="Italic"
+                 Background="Transparent"
+                 Text="Avoid opening two instances at once. Wait until the first instance is open."
+                 Opacity="0.3"
+                 
+                Margin="43,18,-6,149"/>
         <TextBlock x:Name="IDText"
                  FontSize="13"
                  FontWeight="Medium"
@@ -79,6 +100,41 @@
                  Text="Put the game ID here."
                  Opacity="0.3"
                  
-                Margin="131,150,132,15"/>
+                Margin="134,155,129,10"/>
+        <Button
+            Style="{StaticResource gridPlayButton}"
+            x:Name="btnJoin"
+            Content="Join Server"
+            Foreground="White"
+            FontSize="12"
+            FontFamily="Montserrat"
+            FontWeight="Regular"
+            BorderThickness="0" 
+            TextOptions.TextFormattingMode="Display"
+            SnapsToDevicePixels="True"
+            UseLayoutRounding="True"
+            PreviewMouseLeftButtonUp="btnJoin_PreviewMouseLeftButtonUp" Height="45" Margin="99,2,169,11" Grid.Row="1">
+
+            <Button.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="-1.364"/>
+                    <RotateTransform/>
+                    <TranslateTransform X="-0.476"/>
+                </TransformGroup>
+            </Button.RenderTransform>
+
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Width="Auto" Height="40"
+                        CornerRadius="4"
+                        Background="{TemplateBinding Background}" Margin="55,0,0,0">
+                        <ContentPresenter VerticalAlignment="Center"
+                            HorizontalAlignment="Center"/>
+
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
     </Grid>
 </Window>
