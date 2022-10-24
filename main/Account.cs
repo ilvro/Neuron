@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Neuron
 {
-    class Account
+    public class Account
     {
         public string Username { get; set; }
         public string Description { get; set; }
@@ -41,7 +41,7 @@ namespace Neuron
 
             foreach (var h in response.Headers)
             {
-                string Token = getBetween(h.ToString(), "x-csrf-token, Value = ", ",");
+                string Token = NeuronF.getBetween(h.ToString(), "x-csrf-token, Value = ", ",");
                 if (Token.Length > 1)
                 {
                     return Token;
@@ -58,7 +58,7 @@ namespace Neuron
             var TokenRequest = new RestRequest("", Method.Get);
             client.AddCookie(".ROBLOSECURITY", Cookie, "", url.Host);
             var response = client.Execute(TokenRequest);
-            return Account.getBetween(response.Content, "name\":\"", "\"");
+            return NeuronF.getBetween(response.Content, "name\":\"", "\"");
         }
 
         public string getAuthTicket()
@@ -74,7 +74,7 @@ namespace Neuron
             var response = client.Execute(TicketRequest);
             foreach (var h in response.Headers)
             {
-                string Ticket = getBetween(h.ToString(), "rbx-authentication-ticket, Value = ", ",");
+                string Ticket = NeuronF.getBetween(h.ToString(), "rbx-authentication-ticket, Value = ", ",");
                 if (Ticket.Length > 1)
                 {
                     return Ticket;
@@ -105,18 +105,7 @@ namespace Neuron
         }
 
 
-        public static string getBetween(string strSource, string strStart, string strEnd)
-        {
-            if (strSource.Contains(strStart) && strSource.Contains(strEnd))
-            {
-                int Start, End;
-                Start = strSource.IndexOf(strStart, 0) + strStart.Length;
-                End = strSource.IndexOf(strEnd, Start);
-                return strSource.Substring(Start, End - Start);
-            }
-
-            return "";
-        }
+        
 
 
         public class AccountData

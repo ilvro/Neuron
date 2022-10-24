@@ -28,7 +28,18 @@ namespace Neuron_V2.main
             }
             return hash.ToString();
         }
+        public static string getBetween(string strSource, string strStart, string strEnd)
+        {
+            if (strSource.Contains(strStart) && strSource.Contains(strEnd))
+            {
+                int Start, End;
+                Start = strSource.IndexOf(strStart, 0) + strStart.Length;
+                End = strSource.IndexOf(strEnd, Start);
+                return strSource.Substring(Start, End - Start);
+            }
 
+            return "";
+        }
         public static string randomString(int length)
         {
 
@@ -100,7 +111,15 @@ namespace Neuron_V2.main
             public string mainTheme { get; set; }
         }
 
-        public static string getJsonProperty(string path, string property) {
+
+        public class ProcessData
+        {
+            public string Username { get; set; }
+            public string PID { get; set; }
+        }
+
+        public static string getJsonProperty(string path, string property)
+        {
             // File.Exists(path + @"\main\login.json
             string neuronPath = currentDirectory();
             for (int i = 0; i < neuronPath.Length; i++)
@@ -127,7 +146,8 @@ namespace Neuron_V2.main
                         }
                     }
                 }
-                catch {
+                catch
+                {
                     using (StreamReader r = new StreamReader(@path))
                     {
                         string json = r.ReadToEnd();
@@ -138,7 +158,7 @@ namespace Neuron_V2.main
                             break;
                         }
                     }
-                
+
                 }
             }
             return toReturn;
@@ -151,7 +171,7 @@ namespace Neuron_V2.main
         public static void addAccount(string Cookie)
         {
             string name = Account.getUsername(Cookie);
-            if (File.Exists(NeuronF.currentPath() + @"\main\settings\"+name+"_accountData.json").ToString() != "True") // ...
+            if (File.Exists(NeuronF.currentPath() + @"\main\settings\" + name + "_accountData.json").ToString() != "True") // ...
             {
                 List<Account.AccountData> data = new List<Account.AccountData>();
                 data.Add(new Account.AccountData()
@@ -173,12 +193,107 @@ namespace Neuron_V2.main
                 MessageBox.Show("This account is already added.");
             }
 
-            //mainUserUI
 
-            //MessageBox.Show(Application.StartupPath);
-
-            //MessageBox.Show("added account" + name);
         }
 
+        public class RobloxFunctions
+        {
+            public bool isRobloxActive()
+            {
+                bool found = false;
+                Process[] processCollection = Process.GetProcesses();
+                foreach (Process p in processCollection)
+                {
+                    if (p.ProcessName == "RobloxPlayerBeta")
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+                return found;
+            }
+
+
+            public List<Process> getActiveInstances()
+            {
+                List<Process> processList = new List<Process>();
+                Process[] processCollection = Process.GetProcesses();
+                foreach (Process p in processCollection)
+                {
+                    if (p.ProcessName == "RobloxPlayerBeta" && (int)p.MainWindowHandle != 0)
+                    {
+                        processList.Add(p);
+                    }
+                }
+                return processList;
+            }
+
+            public List<Process> getActiveManagedInstances()
+            {
+                List<Process> processList = new List<Process>();
+                string settingsPath = NeuronF.currentPath() + @"\main\settings\";
+                var lines = File.ReadLines(settingsPath + ".accountsBeingManaged.txt");
+                foreach (var item in lines)
+                {
+                    string processId = item.Substring(item.LastIndexOf(":"));
+                    processList.Add(System.Diagnostics.Process.GetProcessById(Int32.Parse(processId)));
+                }
+                return processList;
+            }
+
+            public List<Process> getActiveUnmanagedInstances()
+            {
+                List<Process> processList = new List<Process>();
+                Process[] processCollection = Process.GetProcesses();
+                foreach (Process p in processCollection)
+                {
+                    if (p.ProcessName == "RobloxPlayerBeta" && (int)p.MainWindowHandle != 0 && getActiveManagedInstances().Contains(p) == false)
+                    {
+                        processList.Add(p);
+                    }
+                }
+                return processList;
+            }
+
+
+
+            public Process getLastActiveInstance()
+            {
+                return getActiveInstances().OrderBy(p => p.StartTime).Last();
+            }
+
+
+            public Process getLastActiveManagedInstance()
+            {
+                return getActiveManagedInstances().OrderBy(p => p.StartTime).Last();
+            }
+
+
+            public Process getLastUnmanagedActiveInstance()
+            {
+                return getActiveUnmanagedInstances().OrderBy(p => p.StartTime).Last();
+            }
+
+
+            public bool isInstanceActive(Process p)
+            {
+                return (int)p.MainWindowHandle != 0;
+            }
+
+
+            public void killInactiveInstances()
+            {
+                Process[] processCollection = Process.GetProcesses();
+                foreach (Process p in processCollection)
+                {
+                    if (p.ProcessName == "RobloxPlayerBeta" && (int)p.MainWindowHandle == 0)
+                    {
+                        p.Kill();
+                    }
+                }
+            }
+
+
+        }
     }
 }
