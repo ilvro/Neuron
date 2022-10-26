@@ -235,9 +235,15 @@ namespace Neuron_V2.main
                 var lines = File.ReadLines(settingsPath + ".accountsBeingManaged.txt");
                 foreach (var item in lines)
                 {
-                    string processId = item.Substring(item.LastIndexOf(":"));
-                    processList.Add(System.Diagnostics.Process.GetProcessById(Int32.Parse(processId)));
+                    string processId = item.Substring(item.LastIndexOf(":") + 1);
+                    if (processId.Length > 0)
+                    {
+                        //MessageBox.Show("checking process " + processId);
+                        processList.Add(System.Diagnostics.Process.GetProcessById(Int32.Parse(processId)));
+                    }
+
                 }
+                processList.Add(System.Diagnostics.Process.GetProcessById(0));
                 return processList;
             }
 
@@ -278,6 +284,20 @@ namespace Neuron_V2.main
             public bool isInstanceActive(Process p)
             {
                 return (int)p.MainWindowHandle != 0;
+            }
+
+            public bool isInstanceManaged(Process p)
+            {
+                string settingsPath = NeuronF.currentPath() + @"\main\settings\";
+                var tempLines = File.ReadLines(settingsPath + ".accountsBeingManaged.txt");
+                bool found = false;
+                foreach (var item in tempLines)
+                {
+                    if (item.Contains(p.Id.ToString())) {
+                        found = true;
+                    }
+                }
+                return found;
             }
 
 

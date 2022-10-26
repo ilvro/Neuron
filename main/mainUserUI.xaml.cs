@@ -148,7 +148,7 @@ namespace Neuron_V2.main
                                 string name = NeuronF.getBetween(item, "=", ".");
                                 string toRemove = "";
 
-                                
+
                                 var lines = File.ReadLines(settingsPath + ".accountsBeingManaged.txt");
                                 foreach (var line in lines)
                                 {
@@ -165,6 +165,7 @@ namespace Neuron_V2.main
                                     sw.WriteLine(name + ":" + RobloxF.getLastActiveInstance().Id.ToString());
                                 }
                                 MessageBox.Show("launched account " + name + " on pid " + RobloxF.getLastActiveInstance().Id.ToString());
+                                MessageBox.Show(RobloxF.getLastActiveInstance().StartTime.ToString() + " | " + RobloxF.isInstanceManaged(RobloxF.getLastActiveInstance()).ToString());
                             }
                         }
 
