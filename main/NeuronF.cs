@@ -238,9 +238,13 @@ namespace Neuron_V2.main
                     string processId = item.Substring(item.LastIndexOf(":") + 1);
                     if (processId.Length > 0)
                     {
-                        //MessageBox.Show("checking process " + processId);
-                        processList.Add(System.Diagnostics.Process.GetProcessById(Int32.Parse(processId)));
+                        Process process = System.Diagnostics.Process.GetProcessById(Int32.Parse(processId));
+                        if ((int)process.MainWindowHandle != 0)
+                        {
+                            processList.Add(process);
+                        }
                     }
+                    
 
                 }
                 processList.Add(System.Diagnostics.Process.GetProcessById(0));
@@ -253,9 +257,11 @@ namespace Neuron_V2.main
                 Process[] processCollection = Process.GetProcesses();
                 foreach (Process p in processCollection)
                 {
-                    if (p.ProcessName == "RobloxPlayerBeta" && (int)p.MainWindowHandle != 0 && getActiveManagedInstances().Contains(p) == false)
+                    bool isManaged = getActiveManagedInstances().Contains(p);
+                    if (p.ProcessName == "RobloxPlayerBeta" && (int)p.MainWindowHandle != 0 && isManaged == false)
                     {
                         processList.Add(p);
+                        //MessageBox.Show(p.Id + " is not managed");
                     }
                 }
                 return processList;
@@ -277,7 +283,19 @@ namespace Neuron_V2.main
 
             public Process getLastUnmanagedActiveInstance()
             {
-                return getActiveUnmanagedInstances().OrderBy(p => p.StartTime).Last();
+                //return getActiveUnmanagedInstances().OrderBy(p => p.StartTime).Last();        doesnt work for some reason
+                string settingsPath = NeuronF.currentPath() + @"\main\settings\";
+                var tempLines = File.ReadLines(settingsPath + ".accountsBeingManaged.txt");
+                Process[] ProcessCollection = Process.GetProcesses();
+                List<Process> processList = new List<Process>();
+                foreach (var item in ProcessCollection)
+                {
+                    if (item.ProcessName == "RobloxPlayerBeta.exe" && tempLines.Contains(item.Id.ToString()) && (int)item.MainWindowHandle != 0)
+                    {
+                        processList.Add(item);
+                    }
+                }
+                return processList.OrderBy(p => p.StartTime).Last();
             }
 
 

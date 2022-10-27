@@ -57,6 +57,10 @@ namespace Neuron_V2.main
                 if (fileName.Contains(".accountsBeingManaged"))
                 {
                     File.Delete(fileName);
+                    using (StreamWriter sw = File.AppendText(settingsPath + ".accountsBeingManaged.txt")) // creates the file
+                    {
+                        sw.WriteLine(":");
+                    }
                 }
 
                 if (fileName.Contains(".lastLaunched="))
@@ -110,10 +114,6 @@ namespace Neuron_V2.main
                     };
 
                     // check if the account is already open
-                    using (StreamWriter sw = File.AppendText(settingsPath + ".accountsBeingManaged.txt")) // creates the file
-                    {
-                        sw.WriteLine("");
-                    }
 
                     var tempLines = File.ReadLines(settingsPath + ".accountsBeingManaged.txt");
                     bool isOpen = false;
@@ -133,10 +133,11 @@ namespace Neuron_V2.main
                         messageBox.ShowDialog();
 
                         var RobloxF = new NeuronF.RobloxFunctions();
-                        while (RobloxF.getActiveInstances().Count == 0)
+                        while (RobloxF.getActiveUnmanagedInstances().Count == 0)
                         {
                             //
                         }
+                        MessageBox.Show("there are " + RobloxF.getActiveUnmanagedInstances().Count + " unmanaged instances");
 
                         // get last launched account
                         string[] files = Directory.GetFiles(settingsPath);
@@ -165,7 +166,8 @@ namespace Neuron_V2.main
                                     sw.WriteLine(name + ":" + RobloxF.getLastActiveInstance().Id.ToString());
                                 }
                                 MessageBox.Show("launched account " + name + " on pid " + RobloxF.getLastActiveInstance().Id.ToString());
-                                MessageBox.Show(RobloxF.getLastActiveInstance().StartTime.ToString() + " | " + RobloxF.isInstanceManaged(RobloxF.getLastActiveInstance()).ToString());
+                                int isManaging = RobloxF.getActiveManagedInstances().Count-1;
+                                MessageBox.Show(RobloxF.getLastActiveInstance().StartTime.ToString() + " | IsInstanceManaged=" + RobloxF.isInstanceManaged(RobloxF.getLastActiveInstance()).ToString() + " | ManagedInstances="+isManaging);
                             }
                         }
 
