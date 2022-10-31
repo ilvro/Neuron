@@ -166,6 +166,7 @@ namespace Neuron_V2.main
 
         public static void writeToJson(string path, string content)
         {
+
         }
 
         public static void addAccount(string Cookie)
@@ -196,7 +197,41 @@ namespace Neuron_V2.main
 
         }
 
-        public class RobloxFunctions
+        public static bool getOpeningState()
+        {
+            string settingsPath = NeuronF.currentPath() + @"\main\settings\";
+            bool reopening = false;
+            foreach (string fileName in Directory.GetFiles(settingsPath))
+            {
+                if (fileName.Contains(".reopening="))
+                {
+                    reopening = bool.Parse(getBetween(fileName, "=", ".txt"));
+                    break;
+                }
+            }
+            return reopening;
+        }
+
+
+        public static void setOpeningState(bool reopening)
+        {
+            string settingsPath = NeuronF.currentPath() + @"\main\settings\";
+            foreach (string fileName in Directory.GetFiles(settingsPath))
+            {
+                if (fileName.Contains(".reopening="))
+                {
+                    File.Delete(fileName);
+                    using (StreamWriter sw = File.AppendText(settingsPath + ".reopening=" + reopening.ToString().ToLower() + ".txt"))
+                    { // creates the file
+                        sw.WriteLine("");
+                        sw.Dispose();
+                        sw.Close();
+                    }
+                }
+            }
+        }
+
+    public class RobloxFunctions
         {
             public bool isRobloxActive()
             {
@@ -244,7 +279,7 @@ namespace Neuron_V2.main
                             processList.Add(process);
                         }
                     }
-                    
+
 
                 }
                 processList.Add(System.Diagnostics.Process.GetProcessById(0));
@@ -257,11 +292,9 @@ namespace Neuron_V2.main
                 Process[] processCollection = Process.GetProcesses();
                 foreach (Process p in processCollection)
                 {
-                    bool isManaged = getActiveManagedInstances().Contains(p);
-                    if (p.ProcessName == "RobloxPlayerBeta" && (int)p.MainWindowHandle != 0 && isManaged == false)
+                    if (p.ProcessName == "RobloxPlayerBeta" && (int)p.MainWindowHandle != 0 && isInstanceManaged(p) == false)
                     {
                         processList.Add(p);
-                        //MessageBox.Show(p.Id + " is not managed");
                     }
                 }
                 return processList;
@@ -295,6 +328,7 @@ namespace Neuron_V2.main
                         processList.Add(item);
                     }
                 }
+                processList.Add(System.Diagnostics.Process.GetProcessById(0));
                 return processList.OrderBy(p => p.StartTime).Last();
             }
 
@@ -308,10 +342,12 @@ namespace Neuron_V2.main
             {
                 string settingsPath = NeuronF.currentPath() + @"\main\settings\";
                 var tempLines = File.ReadLines(settingsPath + ".accountsBeingManaged.txt");
+
                 bool found = false;
                 foreach (var item in tempLines)
                 {
-                    if (item.Contains(p.Id.ToString())) {
+                    if (item.Contains(p.Id.ToString()))
+                    {
                         found = true;
                     }
                 }
@@ -331,7 +367,38 @@ namespace Neuron_V2.main
                 }
             }
 
+            public void onInstanceExited(object sender, EventArgs e, string name)
+            {
+                while (getOpeningState() == true)
+                {
+                    // wait
+                }
+                MessageBox.Show("reopening");
+                string settingsPath = NeuronF.currentPath() + @"\main\settings\";
+                string toRemove = "";
+                var lines = File.ReadLines(settingsPath + ".accountsBeingManaged.txt");
+                foreach (var line in lines)
+                {
+                    if (line.Contains(name))
+                    {
+                        toRemove = line;
+                    }
+                }
+                File.WriteAllLines(settingsPath + ".accountsBeingManaged.txt", File.ReadLines(settingsPath + ".accountsBeingManaged.txt").Where(l => l != toRemove).ToList()); // removes from managed list
+                string accountPath = settingsPath + name + "_accountData.json";
+                string joinMethod = getJsonProperty(accountPath, "lastMethod");
+                if (getJsonProperty(accountPath, "relaunchWhenClosed") == "true")
+                {
+                    if (joinMethod == "joinServer")
+                    {
+                        setOpeningState(true);
+                        new Account { Username = getJsonProperty(accountPath, "Username"), Description = getJsonProperty(accountPath, "Description"), lastPlace = getJsonProperty(accountPath, "lastPlace"), relaunchWhenClosed = getJsonProperty(accountPath, "relaunchWhenClosed"), Cookie = getJsonProperty(accountPath, "Cookie") }.joinServer((long)Convert.ToInt64(getJsonProperty(accountPath, "lastPlace")));
+                        setOpeningState(false);
 
+                    }
+                }
+
+            }
         }
     }
 }

@@ -60,12 +60,34 @@ namespace Neuron_V2.main
                     using (StreamWriter sw = File.AppendText(settingsPath + ".accountsBeingManaged.txt")) // creates the file
                     {
                         sw.WriteLine(":");
+                        sw.Dispose();
+                        sw.Close();
                     }
                 }
 
                 if (fileName.Contains(".lastLaunched="))
                 {
                     File.Delete(fileName);
+                }
+                if (fileName.Contains(".reopening=true"))
+                {
+                    try
+                    {
+                        File.Move(fileName, ".reopening=false");
+                    }
+                    catch
+                    {
+                        //lol
+                    }
+                }
+            }
+            if (File.Exists(settingsPath + ".reopening=false") == false)
+            {
+                using (StreamWriter sw = File.AppendText(settingsPath + ".reopening=false.txt")) // creates the file
+                {
+                    sw.WriteLine("");
+                    sw.Dispose();
+                    sw.Close();
                 }
             }
 
@@ -126,17 +148,25 @@ namespace Neuron_V2.main
                             break;
                         }
                     }
+
+                    //  check if theres an account relaunching
+                    if (NeuronF.getOpeningState() == true)
+                    {
+                        MessageBox.Show("An account is already being opened.");
+                    }
                     if (isOpen == false)
                     {
                         // use last game id, if there is one
                         messageBox.gameIDLine.Text = NeuronF.getJsonProperty(settingsPath + ((Account)row.DataContext).Username + "_accountData.json", "lastPlace");
                         messageBox.ShowDialog();
 
+                        NeuronF.setOpeningState(true);
                         var RobloxF = new NeuronF.RobloxFunctions();
                         while (RobloxF.getActiveUnmanagedInstances().Count == 0)
                         {
                             //
                         }
+                        System.Threading.Thread.Sleep(1100);
                         MessageBox.Show("there are " + RobloxF.getActiveUnmanagedInstances().Count + " unmanaged instances");
 
                         // get last launched account
@@ -159,15 +189,27 @@ namespace Neuron_V2.main
                                     }
                                 }
 
+
+
                                 File.WriteAllLines(settingsPath + ".accountsBeingManaged.txt", File.ReadLines(settingsPath + ".accountsBeingManaged.txt").Where(l => l != toRemove).ToList());
 
                                 using (StreamWriter sw = File.AppendText(settingsPath + ".accountsBeingManaged.txt"))
                                 {
                                     sw.WriteLine(name + ":" + RobloxF.getLastActiveInstance().Id.ToString());
+                                    sw.Close();
                                 }
-                                MessageBox.Show("launched account " + name + " on pid " + RobloxF.getLastActiveInstance().Id.ToString());
+                                //MessageBox.Show("launched account " + name + " on pid " + RobloxF.getLastActiveInstance().Id.ToString());
                                 int isManaging = RobloxF.getActiveManagedInstances().Count-1;
-                                MessageBox.Show(RobloxF.getLastActiveInstance().StartTime.ToString() + " | IsInstanceManaged=" + RobloxF.isInstanceManaged(RobloxF.getLastActiveInstance()).ToString() + " | ManagedInstances="+isManaging);
+                                Process currentProcess = RobloxF.getLastActiveInstance();
+                                currentProcess.EnableRaisingEvents = true;
+                                MessageBox.Show(currentProcess.StartTime.ToString() + " | IsInstanceManaged=" + RobloxF.isInstanceManaged(currentProcess).ToString() + " ("+currentProcess.Id+")"+" | ManagedInstances="+isManaging);
+
+
+                                //currentProcess.Exited += new EventHandler(RobloxF.onInstanceExited);
+                                NeuronF.setOpeningState(false);
+                                currentProcess.Exited += (s, ea) => RobloxF.onInstanceExited(sender, e, name);
+
+                                
                             }
                         }
 
@@ -181,10 +223,12 @@ namespace Neuron_V2.main
                         }
                         */
                     }
+                    
 
                 }
             }
         }
+
 
 
         private void deleteBtn_MouseLeftButtonUp(object sender, RoutedEventArgs e)
