@@ -11,6 +11,8 @@
         WindowStartupLocation="CenterScreen"
         ResizeMode="CanMinimize">
 
+
+    
     <Grid>
 
         <Button Style="{StaticResource addAccountBtn}" PreviewMouseLeftButtonDown="addAccountBtn_MouseLeftButtonDown"
@@ -92,7 +94,18 @@
 
                 <DataGridTextColumn Header="Description" IsReadOnly="True" Width="120" Binding="{Binding Description}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Running" IsReadOnly="True" Width="80"></DataGridTextColumn>
-                <DataGridTextColumn Header="Relaunch when closed" IsReadOnly="True" Width="160"></DataGridTextColumn>
+                <!--<DataGridTextColumn Header="Relaunch when closed" IsReadOnly="True" Width="160"></DataGridTextColumn>-->
+                <DataGridTemplateColumn Header="Relaunch when closed" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button>
+                                    <CheckBox  HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="26" Foreground="#199dc9" BorderBrush="Transparent" BorderThickness="0"></CheckBox>
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
 
                 <DataGridTemplateColumn Header="Options" IsReadOnly="True" Width="109">
                     <DataGridTemplateColumn.CellTemplate>
@@ -104,8 +117,9 @@
                                 </Button>
                                 <Button Margin="5 0 0 0" Style="{StaticResource gridRemoveButton}" PreviewMouseLeftButtonUp="deleteBtn_MouseLeftButtonUp">
                                     <Icon:PackIconMaterial Kind="DeleteOutline" Style="{StaticResource gridButtonIcon}"/>
-
                                 </Button>
+                                <CheckBox  HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="26" Foreground="#199dc9" BorderBrush="Transparent" BorderThickness="0"></CheckBox>
+                                
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -116,4 +130,5 @@
 
 
     </Grid>
+    
 </Window>

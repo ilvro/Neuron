@@ -6,6 +6,60 @@
              StartupUri="MainWindow.xaml">
 
     <Application.Resources>
+        <Style TargetType="CheckBox"> <!-- got this toggle button from youtube. not made by me-->
+            
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="CheckBox" >
+                        <StackPanel Orientation="Horizontal" >
+                            <Grid >
+                                <Border Width="35" Height="15" Background="LightGray" CornerRadius="10" Margin="5,0" BorderThickness="0" BorderBrush="Transparent"></Border>
+                                <Border x:Name="button" Height="15" Width="15" CornerRadius="12.5" HorizontalAlignment="Left" BorderThickness="0" BorderBrush="Transparent" ></Border>
+                                
+                            </Grid>
+                            <ContentPresenter x:Name="content" Margin="10,0,0,0" Content="{TemplateBinding Content}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <ControlTemplate.Resources>
+                            <Storyboard x:Key="right">
+                                <ThicknessAnimation Storyboard.TargetProperty="Margin" Storyboard.TargetName="button" Duration="0:0:0.4" From="0,0,0,0" To="28,0,0,0" >
+                                    <ThicknessAnimation.EasingFunction>
+                                        <CircleEase EasingMode="EaseOut"/>
+                                    </ThicknessAnimation.EasingFunction>
+                                </ThicknessAnimation>
+                            </Storyboard>
+                            <Storyboard x:Key="left">
+                                <ThicknessAnimation Storyboard.TargetProperty="Margin" Storyboard.TargetName="button" Duration="0:0:0.4" From="28,0,0,0" To="0,0,0,0" >
+                                    <ThicknessAnimation.EasingFunction>
+                                        <CircleEase EasingMode="EaseOut"/>
+                                    </ThicknessAnimation.EasingFunction>
+                                </ThicknessAnimation>
+                            </Storyboard>
+                        </ControlTemplate.Resources>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="false">
+                                <Trigger.ExitActions>
+                                    <RemoveStoryboard BeginStoryboardName="leftt"></RemoveStoryboard>
+                                    <BeginStoryboard Storyboard="{StaticResource right}" x:Name="rightt" ></BeginStoryboard>
+                                </Trigger.ExitActions>
+                                <Setter TargetName="button" Property="Background" Value="#757575"></Setter>
+                                <Setter TargetName="button" Property="BorderThickness" Value="0"></Setter>
+                                <Setter TargetName="button" Property="BorderBrush" Value="Transparent"></Setter>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="true">
+                                <Trigger.ExitActions>
+                                    <RemoveStoryboard BeginStoryboardName="rightt"></RemoveStoryboard>
+                                    <BeginStoryboard Storyboard="{StaticResource left}" x:Name="leftt" ></BeginStoryboard>
+                                </Trigger.ExitActions>
+                                <Setter TargetName="button" Property="Background" Value="#199dc9"></Setter>
+                                <Setter TargetName="button" Property="BorderThickness" Value="0"></Setter>
+                                <Setter TargetName="button" Property="BorderBrush" Value="Transparent"></Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
         <Style x:Key="addAccountBtn" TargetType="{x:Type Button}">
             <Setter Property="Background" Value="#199dc9"/>
             <Setter Property="Foreground" Value="White"/>

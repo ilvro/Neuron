@@ -273,10 +273,17 @@ namespace Neuron_V2.main
                     string processId = item.Substring(item.LastIndexOf(":") + 1);
                     if (processId.Length > 0)
                     {
-                        Process process = System.Diagnostics.Process.GetProcessById(Int32.Parse(processId));
-                        if ((int)process.MainWindowHandle != 0)
+                        try
                         {
-                            processList.Add(process);
+                            Process process = System.Diagnostics.Process.GetProcessById(Int32.Parse(processId));
+                            if ((int)process.MainWindowHandle != 0)
+                            {
+                                processList.Add(process);
+                            }
+                        }
+                        catch
+                        {
+                            // gotta do this because it says "Process with an id of ____ is not running" while waiting for it to reopen
                         }
                     }
 
@@ -369,11 +376,11 @@ namespace Neuron_V2.main
 
             public void onInstanceExited(object sender, EventArgs e, string name)
             {
+                MessageBox.Show("called oninstanceexited on " + name);
                 while (getOpeningState() == true)
                 {
                     // wait
                 }
-                MessageBox.Show("reopening");
                 string settingsPath = NeuronF.currentPath() + @"\main\settings\";
                 string toRemove = "";
                 var lines = File.ReadLines(settingsPath + ".accountsBeingManaged.txt");
@@ -387,13 +394,44 @@ namespace Neuron_V2.main
                 File.WriteAllLines(settingsPath + ".accountsBeingManaged.txt", File.ReadLines(settingsPath + ".accountsBeingManaged.txt").Where(l => l != toRemove).ToList()); // removes from managed list
                 string accountPath = settingsPath + name + "_accountData.json";
                 string joinMethod = getJsonProperty(accountPath, "lastMethod");
-                if (getJsonProperty(accountPath, "relaunchWhenClosed") == "true")
+                if (getJsonProperty(accountPath, "relaunchWhenClosed") == "True")
                 {
                     if (joinMethod == "joinServer")
                     {
                         setOpeningState(true);
                         new Account { Username = getJsonProperty(accountPath, "Username"), Description = getJsonProperty(accountPath, "Description"), lastPlace = getJsonProperty(accountPath, "lastPlace"), relaunchWhenClosed = getJsonProperty(accountPath, "relaunchWhenClosed"), Cookie = getJsonProperty(accountPath, "Cookie") }.joinServer((long)Convert.ToInt64(getJsonProperty(accountPath, "lastPlace")));
-                        setOpeningState(false);
+                        while (getActiveUnmanagedInstances().Count == 0)
+                        {
+                            //
+                        }
+                        System.Threading.Thread.Sleep(1100);
+                        MessageBox.Show("there are " + getActiveUnmanagedInstances().Count + " unmanaged instances");
+
+                        // get last launched account
+                        string[] files = Directory.GetFiles(settingsPath);
+                        foreach (var item in files)
+                        {
+                            if (item.Contains(".lastLaunched="))
+                            {
+
+                                using (StreamWriter sw = File.AppendText(settingsPath + ".accountsBeingManaged.txt"))
+                                {
+                                    sw.WriteLine(name + ":" + getLastActiveInstance().Id.ToString());
+                                    sw.Close();
+                                }
+                                //MessageBox.Show("launched account " + name + " on pid " + RobloxF.getLastActiveInstance().Id.ToString());
+                                int isManaging = getActiveManagedInstances().Count - 1;
+                                Process currentProcess = getLastActiveInstance();
+                                currentProcess.EnableRaisingEvents = true;
+                                MessageBox.Show(currentProcess.StartTime.ToString() + " | IsInstanceManaged=" + isInstanceManaged(currentProcess).ToString() + " (" + currentProcess.Id + ")" + " | ManagedInstances=" + isManaging);
+
+
+                                //currentProcess.Exited += new EventHandler(RobloxF.onInstanceExited);
+                                NeuronF.setOpeningState(false);
+                                currentProcess.Exited += (s, ea) => onInstanceExited(sender, e, name);
+                                setOpeningState(false);
+                            }
+                        }
 
                     }
                 }
