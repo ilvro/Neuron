@@ -1,0 +1,3 @@
+﻿KNOWN BUGS:
+	- Closing the UI that shows when you press the play button might freeze the application;
+	- "Relaunch when closed" and "switch VPN on unexpected client behaviour" settings don't save;

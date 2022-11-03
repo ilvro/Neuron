@@ -212,6 +212,21 @@ namespace Neuron_V2.main
             return reopening;
         }
 
+        public static bool getSwitchState()
+        {
+            string settingsPath = NeuronF.currentPath() + @"\main\settings\";
+            bool switchState = false;
+            foreach (string fileName in Directory.GetFiles(settingsPath))
+            {
+                if (fileName.Contains(".switch="))
+                {
+                    switchState = bool.Parse(getBetween(fileName, "=", ".txt"));
+                    break;
+                }
+            }
+            return switchState;
+        }
+
 
         public static void setOpeningState(bool reopening)
         {
@@ -376,7 +391,7 @@ namespace Neuron_V2.main
 
             public void onInstanceExited(object sender, EventArgs e, string name)
             {
-                MessageBox.Show("called oninstanceexited on " + name);
+                //MessageBox.Show("called oninstanceexited on " + name);
                 while (getOpeningState() == true)
                 {
                     // wait
@@ -405,7 +420,7 @@ namespace Neuron_V2.main
                             //
                         }
                         System.Threading.Thread.Sleep(1100);
-                        MessageBox.Show("there are " + getActiveUnmanagedInstances().Count + " unmanaged instances");
+                        //MessageBox.Show("there are " + getActiveUnmanagedInstances().Count + " unmanaged instances");
 
                         // get last launched account
                         string[] files = Directory.GetFiles(settingsPath);
@@ -423,7 +438,7 @@ namespace Neuron_V2.main
                                 int isManaging = getActiveManagedInstances().Count - 1;
                                 Process currentProcess = getLastActiveInstance();
                                 currentProcess.EnableRaisingEvents = true;
-                                MessageBox.Show(currentProcess.StartTime.ToString() + " | IsInstanceManaged=" + isInstanceManaged(currentProcess).ToString() + " (" + currentProcess.Id + ")" + " | ManagedInstances=" + isManaging);
+                                //MessageBox.Show(currentProcess.StartTime.ToString() + " | IsInstanceManaged=" + isInstanceManaged(currentProcess).ToString() + " (" + currentProcess.Id + ")" + " | ManagedInstances=" + isManaging);
 
 
                                 //currentProcess.Exited += new EventHandler(RobloxF.onInstanceExited);
@@ -436,6 +451,57 @@ namespace Neuron_V2.main
                     }
                 }
 
+            }
+
+            public void checkVPN()
+            {
+                var robloxLogs = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Roblox\\logs";
+                bool switched = false;
+                if (Directory.Exists(robloxLogs))
+                {
+                    foreach (var item in Directory.GetFiles(robloxLogs))
+                    {
+                        if (switched == false)
+                        {
+                            using (var stream = new FileStream(
+                               item,
+                               FileMode.Open,
+                               FileAccess.Read,
+                               FileShare.ReadWrite))
+                            {
+                            using (StreamReader streamReader = new StreamReader(stream, Encoding.UTF8))
+                                {
+                                    if (streamReader.ReadToEnd().Contains("Sending disconnect with reason: 268").ToString() == "True")
+                                    {
+                                        string[] possible_paths =
+                                        {
+                                            "C:\\Program Files\\NordVPN",
+                                            "C:\\NordVPN",
+                                            "D:\\NordVPN",
+
+                                            "C:\\Program Files\\Private Internet Access",
+                                            "C:\\Program Files (x86)\\Private Internet Access",
+                                            "C:\\Private Internet Access",
+                                            "D:\\Private Internet Access",
+
+                                            "C:\\Program Files\\OpenVPN\\bin"
+                                        };
+                                        foreach (var path in possible_paths)
+                                        {
+                                            if (Directory.Exists(path) || File.Exists(path))
+                                            {
+
+                                            }
+                                        }
+
+
+                                        switched = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }

@@ -52,6 +52,16 @@ namespace Neuron_V2.main
                         // theres probably a much better way to do this
                         accounts.Add(new Account { Username = NeuronF.getJsonProperty(fileName, "Username"), Description = NeuronF.getJsonProperty(fileName, "Description"), lastPlace = NeuronF.getJsonProperty(fileName, "lastPlace"), relaunchWhenClosed = NeuronF.getJsonProperty(fileName, "relaunchWhenClosed"), Cookie = NeuronF.getJsonProperty(fileName, "Cookie") });
                     }
+                    if (NeuronF.getJsonProperty(fileName, "relaunchWhenClosed").ToString().Length > 0) // reset
+                    {
+
+                        string json = File.ReadAllText(fileName);
+                        dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
+                        jsonObj[0]["relaunchWhenClosed"] = false;
+                        string output = Newtonsoft.Json.JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented);
+                        File.WriteAllText(fileName, output);
+                    }
+
                 }
 
                 if (fileName.Contains(".accountsBeingManaged"))
@@ -81,6 +91,15 @@ namespace Neuron_V2.main
                     }
                 }
             }
+            if (File.Exists(settingsPath + "roblox-logs-ignore") == false)
+            {
+                using (StreamWriter sw = File.AppendText(settingsPath + "roblox-logs-ignore.txt")) // creates the file
+                {
+                    sw.WriteLine("");
+                    sw.Dispose();
+                    sw.Close();
+                }
+            }
             if (File.Exists(settingsPath + ".reopening=false") == false)
             {
                 using (StreamWriter sw = File.AppendText(settingsPath + ".reopening=false.txt")) // creates the file
@@ -91,7 +110,39 @@ namespace Neuron_V2.main
                 }
             }
 
+            if (File.Exists(settingsPath + ".switch=false") == false && File.Exists(settingsPath + ".switch=true") == false)
+            {
+                using (StreamWriter sw = File.AppendText(settingsPath + ".switch=false.txt")) // creates the file
+                {
+                    sw.WriteLine("");
+                    sw.Dispose();
+                    sw.Close();
+                }
+            }
+
+
+            var robloxLogs = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Roblox\\logs"; // clear roblox logs
+            if (Directory.Exists(robloxLogs))
+            {
+                foreach (var item in Directory.GetFiles(robloxLogs))
+                {
+                    try
+                    {
+                        File.Delete(item);
+                    }
+                    catch // maybe the file is open?
+                    {
+
+                    }
+                }
+            }
+
+
             accountsDataGrid.ItemsSource = accounts;
+            var RobloxF = new NeuronF.RobloxFunctions();
+            RobloxF.checkVPN();
+
+
         }
 
         public void refreshGrid()
@@ -111,8 +162,11 @@ namespace Neuron_V2.main
                 }
             }
 
+
             accountsDataGrid.ItemsSource = accounts;
         }
+
+
         private void addAccountBtn_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             Browser browser = new Browser();
@@ -120,6 +174,7 @@ namespace Neuron_V2.main
             browser.ShowDialog();
             refreshGrid();
         }
+
 
         private void playBtn_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
@@ -150,7 +205,7 @@ namespace Neuron_V2.main
                     }
 
                     //  check if theres an account relaunching
-                    if (NeuronF.getOpeningState() == true)
+                    if (NeuronF.getOpeningState())
                     {
                         MessageBox.Show("An account is already being opened.");
                     }
@@ -167,7 +222,7 @@ namespace Neuron_V2.main
                             //
                         }
                         System.Threading.Thread.Sleep(1100);
-                        MessageBox.Show("there are " + RobloxF.getActiveUnmanagedInstances().Count + " unmanaged instances");
+                        //MessageBox.Show("there are " + RobloxF.getActiveUnmanagedInstances().Count + " unmanaged instances");
 
                         // get last launched account
                         string[] files = Directory.GetFiles(settingsPath);
@@ -199,17 +254,17 @@ namespace Neuron_V2.main
                                     sw.Close();
                                 }
                                 //MessageBox.Show("launched account " + name + " on pid " + RobloxF.getLastActiveInstance().Id.ToString());
-                                int isManaging = RobloxF.getActiveManagedInstances().Count-1;
+                                int isManaging = RobloxF.getActiveManagedInstances().Count - 1;
                                 Process currentProcess = RobloxF.getLastActiveInstance();
                                 currentProcess.EnableRaisingEvents = true;
-                                MessageBox.Show(currentProcess.StartTime.ToString() + " | IsInstanceManaged=" + RobloxF.isInstanceManaged(currentProcess).ToString() + " ("+currentProcess.Id+")"+" | ManagedInstances="+isManaging);
+                                //MessageBox.Show(currentProcess.StartTime.ToString() + " | IsInstanceManaged=" + RobloxF.isInstanceManaged(currentProcess).ToString() + " ("+currentProcess.Id+")"+" | ManagedInstances="+isManaging);
 
 
                                 //currentProcess.Exited += new EventHandler(RobloxF.onInstanceExited);
                                 NeuronF.setOpeningState(false);
                                 currentProcess.Exited += (s, ea) => RobloxF.onInstanceExited(sender, e, name);
 
-                                
+
                             }
                         }
 
@@ -223,7 +278,7 @@ namespace Neuron_V2.main
                         }
                         */
                     }
-                    
+
 
                 }
             }
@@ -256,6 +311,48 @@ namespace Neuron_V2.main
                     break;
                 }
             }
+        }
+
+        private void relaunchToggle_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            //MessageBox.Show(sender.ToString());
+            for (var vis = sender as Visual; vis != null; vis = VisualTreeHelper.GetParent(vis) as Visual)
+            {
+                if (vis is DataGridRow)
+                {
+                    DataGridRow row = (DataGridRow)vis;
+                    string username = ((Account)row.DataContext).Username;
+                    bool toggled = Convert.ToBoolean(sender.ToString().Substring(sender.ToString().LastIndexOf(":") + 1));
+                    string settingsPath = NeuronF.currentPath() + @"\main\settings\";
+                    string fileName = settingsPath + username + "_accountData.json";
+
+                    string json = File.ReadAllText(fileName);
+                    dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
+                    jsonObj[0]["relaunchWhenClosed"] = !toggled;
+                    string output = Newtonsoft.Json.JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented);
+                    File.WriteAllText(fileName, output);
+                }
+            }
+        }
+
+        private void switchToggle_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            bool toggled = Convert.ToBoolean(sender.ToString().Substring(sender.ToString().LastIndexOf(":") + 1));
+            string settingsPath = NeuronF.currentPath() + @"\main\settings\";
+            foreach (string fileName in Directory.GetFiles(settingsPath))
+            {
+                if (fileName.Contains(".switch="))
+                {
+                    File.Delete(fileName);
+                    using (StreamWriter sw = File.AppendText(settingsPath + ".switch=" + (!toggled).ToString().ToLower() + ".txt"))
+                    {
+                        sw.WriteLine("");
+                        sw.Dispose();
+                        sw.Close();
+                    }
+                }
+            }
+            //
         }
     }
 }

@@ -12,7 +12,7 @@
         ResizeMode="CanMinimize">
 
 
-    
+
     <Grid>
 
         <Button Style="{StaticResource addAccountBtn}" PreviewMouseLeftButtonDown="addAccountBtn_MouseLeftButtonDown"
@@ -51,9 +51,11 @@
             HorizontalAlignment="Left" 
             FontWeight="Medium"
             FontSize="13.5"
-            Margin="670,158,0,0"
+            Margin="635,143,0,0"
             TextWrapping="Wrap"
-            VerticalAlignment="Top" Height="63" Width="103"><Run Text="Switch VPN on unexpected client behavior"/><LineBreak/><Run/></TextBlock>
+            VerticalAlignment="Top" Height="55" Width="145"><Run Text="Switch VPN on unexpected client behavior"/><Run Text=" "/><InlineUIContainer>
+                <CheckBox  Name="switchToggle" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="26" Foreground="#199dc9" BorderBrush="Transparent" BorderThickness="0" Margin="10 0 0 0" PreviewMouseLeftButtonDown="switchToggle_PreviewMouseLeftButtonDown" Width="55" />
+            </InlineUIContainer><LineBreak/><Run/></TextBlock>
         <Button Style="{StaticResource addAccountBtn}" 
             Margin="0,79,10,295" Height="Auto" Grid.Row="0" Width="149" Background="#bae8f7">
             <StackPanel Orientation="Horizontal">
@@ -70,15 +72,7 @@
             x:Name="accountsDataGrid"
             BorderThickness="0" Style="{DynamicResource DataGridStyle1}" Grid.Row="0">
             <DataGrid.Columns>
-                <!--
-                <DataGridCheckBoxColumn CanUserResize="False" Width="auto">
-                    <DataGridCheckBoxColumn.HeaderTemplate>
-                        <DataTemplate>
-                            <CheckBox/>
-                        </DataTemplate>
-                    </DataGridCheckBoxColumn.HeaderTemplate>
-                </DataGridCheckBoxColumn>
-                -->
+
 
 
                 <DataGridTemplateColumn Header="Name" IsReadOnly="True" Width="100">
@@ -94,14 +88,13 @@
 
                 <DataGridTextColumn Header="Description" IsReadOnly="True" Width="120" Binding="{Binding Description}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Running" IsReadOnly="True" Width="80"></DataGridTextColumn>
-                <!--<DataGridTextColumn Header="Relaunch when closed" IsReadOnly="True" Width="160"></DataGridTextColumn>-->
-                <DataGridTemplateColumn Header="Relaunch when closed" IsReadOnly="True">
+
+                <DataGridTemplateColumn Header="Relaunch when closed" IsReadOnly="True" Width="160">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <Button>
-                                    <CheckBox  HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="26" Foreground="#199dc9" BorderBrush="Transparent" BorderThickness="0"></CheckBox>
-                                </Button>
+                                <CheckBox  HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="26" Foreground="#199dc9" BorderBrush="Transparent" BorderThickness="0" Margin="30 0 0 0" PreviewMouseLeftButtonDown="relaunchToggle_PreviewMouseLeftButtonDown" ></CheckBox>
+
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -118,8 +111,9 @@
                                 <Button Margin="5 0 0 0" Style="{StaticResource gridRemoveButton}" PreviewMouseLeftButtonUp="deleteBtn_MouseLeftButtonUp">
                                     <Icon:PackIconMaterial Kind="DeleteOutline" Style="{StaticResource gridButtonIcon}"/>
                                 </Button>
-                                <CheckBox  HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="26" Foreground="#199dc9" BorderBrush="Transparent" BorderThickness="0"></CheckBox>
-                                
+
+
+
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -130,5 +124,5 @@
 
 
     </Grid>
-    
+
 </Window>

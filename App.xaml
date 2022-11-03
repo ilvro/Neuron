@@ -13,8 +13,8 @@
                     <ControlTemplate TargetType="CheckBox" >
                         <StackPanel Orientation="Horizontal" >
                             <Grid >
-                                <Border Width="35" Height="15" Background="LightGray" CornerRadius="10" Margin="5,0" BorderThickness="0" BorderBrush="Transparent"></Border>
-                                <Border x:Name="button" Height="15" Width="15" CornerRadius="12.5" HorizontalAlignment="Left" BorderThickness="0" BorderBrush="Transparent" ></Border>
+                                <Border Width="30" Height="16" Background="LightGray" CornerRadius="8" Margin="5,0" BorderThickness="0" BorderBrush="Transparent"></Border>
+                                <Border x:Name="button" Height="16" Width="16" CornerRadius="12.5" HorizontalAlignment="Left" BorderThickness="0" BorderBrush="Transparent" ></Border>
                                 
                             </Grid>
                             <ContentPresenter x:Name="content" Margin="10,0,0,0" Content="{TemplateBinding Content}" VerticalAlignment="Center"/>
