@@ -7,8 +7,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -116,6 +119,25 @@ namespace Neuron_V2.main
         {
             public string Username { get; set; }
             public string PID { get; set; }
+        }
+
+        public class ConnData
+        {
+            public string webhookLink { get; set; }
+            public bool isSwitching { get; set; }
+        }
+
+        public static string GetLocalIPAddress()
+        {
+            var host = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (var ip in host.AddressList)
+            {
+                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    return ip.ToString();
+                }
+            }
+            throw new Exception("No network adapters with an IPv4 address in the system.");
         }
 
         public static string getJsonProperty(string path, string property)
@@ -453,10 +475,25 @@ namespace Neuron_V2.main
 
             }
 
+            public void disconnectVPN()
+            {
+                //
+            }
+
             public void checkVPN()
             {
-                var robloxLogs = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Roblox\\logs";
+                //string oldIP = GetLocalIPAddress();
+                string settingsPath = NeuronF.currentPath() + @"\main\settings\";
+                string dataPath = settingsPath + "connData.json";
+                bool isSwitching = Convert.ToBoolean(NeuronF.getJsonProperty(dataPath, "isSwitching"));
                 bool switched = false;
+                int count = 0;
+                while (isSwitching)
+                {
+                    System.Threading.Thread.Sleep(5000);
+                }
+                var robloxLogs = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Roblox\\logs";
+                
                 if (Directory.Exists(robloxLogs))
                 {
                     foreach (var item in Directory.GetFiles(robloxLogs))
@@ -471,37 +508,152 @@ namespace Neuron_V2.main
                             {
                             using (StreamReader streamReader = new StreamReader(stream, Encoding.UTF8))
                                 {
-                                    if (streamReader.ReadToEnd().Contains("Sending disconnect with reason: 268").ToString() == "True")
+                                    bool contains = false;
+                                    bool switching = Convert.ToBoolean(getJsonProperty(dataPath, "isSwitching"));
+                                    if (streamReader.ReadToEnd().Contains("Sending disconnect with reason: 268").ToString() == "True" && switching == false)
                                     {
-                                        string[] possible_paths =
-                                        {
-                                            "C:\\Program Files\\NordVPN",
-                                            "C:\\NordVPN",
-                                            "D:\\NordVPN",
+                                        //var tempLines = File.ReadLines(settingsPath + "roblox-logs-ignore.txt");
 
-                                            "C:\\Program Files\\Private Internet Access",
-                                            "C:\\Program Files (x86)\\Private Internet Access",
-                                            "C:\\Private Internet Access",
-                                            "D:\\Private Internet Access",
+                                        System.IO.FileStream fs = new System.IO.FileStream(settingsPath + "roblox-logs-ignore.txt", System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.ReadWrite);
 
-                                            "C:\\Program Files\\OpenVPN\\bin"
-                                        };
-                                        foreach (var path in possible_paths)
-                                        {
-                                            if (Directory.Exists(path) || File.Exists(path))
+                                        System.IO.StreamReader sr = new System.IO.StreamReader(fs);
+
+                                        List<String> lst = new List<string>();
+
+                                        while (!sr.EndOfStream) {
+                                            if (sr.ReadLine().Contains(item.ToString()))
                                             {
-
+                                                contains = true;
                                             }
                                         }
+                                        if (contains == false)
+                                        {
+                                            System.Diagnostics.Process processt = new System.Diagnostics.Process();
+                                            System.Diagnostics.ProcessStartInfo startInfot = new System.Diagnostics.ProcessStartInfo();
+                                            startInfot.WorkingDirectory = "C:\\Program Files\\NordVPN";
+                                            startInfot.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+                                            startInfot.FileName = "cmd.exe";
+                                            startInfot.Arguments = "/C nordvpn -d";
+                                            processt.StartInfo = startInfot;
+                                            processt.Start();
 
+                                            MessageBox.Show("found unexpected");
+                                            MessageBox.Show(item.ToString());
+                                            string[] possible_paths =
+                                            {
+                                                    "C:\\Program Files\\NordVPN",
+                                                    "C:\\NordVPN",
+                                                    "D:\\NordVPN",
 
-                                        switched = true;
+                                                    "C:\\Program Files\\Private Internet Access",
+                                                    "C:\\Program Files (x86)\\Private Internet Access",
+                                                    "C:\\Private Internet Access",
+                                                    "D:\\Private Internet Access",
+
+                                                    "C:\\Program Files\\OpenVPN\\bin"
+                                                };
+                                            foreach (var path in possible_paths)
+                                            {
+                                                if (Directory.Exists(path) || File.Exists(path))
+                                                {
+                                                    if (path.Contains("NordVPN"))
+                                                    {
+                                                        string oldIP = GetLocalIPAddress();
+
+                                                        List<NeuronF.ConnData> data = new List<NeuronF.ConnData>(); // change isSwitching to true
+                                                        data.Add(new NeuronF.ConnData()
+                                                        {
+                                                            webhookLink = getJsonProperty(dataPath, "webhookLink"),
+                                                            isSwitching = true
+
+                                                        });
+
+                                                        string json = System.Text.Json.JsonSerializer.Serialize(data);
+                                                        File.Delete(dataPath);
+                                                        File.WriteAllText(dataPath, json);
+                                                        //
+
+                                                        System.Diagnostics.Process process = new System.Diagnostics.Process();
+                                                        System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+                                                        startInfo.WorkingDirectory = "C:\\Program Files\\NordVPN";
+                                                        startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+                                                        startInfo.FileName = "cmd.exe";
+                                                        startInfo.Arguments = "/C nordvpn -c";
+                                                        process.StartInfo = startInfo;
+                                                        process.Start();
+
+                                                        // wait until its done changing vpns
+                                                        while (oldIP == GetLocalIPAddress())
+                                                        {
+                                                            if (count >= 10 || oldIP != GetLocalIPAddress())
+                                                            {
+                                                                MessageBox.Show("broke loop");
+                                                                break;
+                                                            }
+                                                            count++;
+                                                            MessageBox.Show(count.ToString());
+                                                            System.Threading.Thread.Sleep(6000);
+                                                        }
+                                                        System.Threading.Thread.Sleep(2000);
+                                                        // broke loop, means the old ip is not the same as the current one (changed)     or it failed to connect
+                                                        if (oldIP == GetLocalIPAddress())
+                                                        {
+                                                            //same ip, failed to connect
+                                                            MessageBox.Show("same ip, failed to connect (" + oldIP + " || " + GetLocalIPAddress() + ")");
+                                                            string json2 = File.ReadAllText(dataPath);
+                                                            dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json2);
+                                                            jsonObj[0]["isSwitching"] = false;
+                                                            string output = Newtonsoft.Json.JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented);
+                                                            File.WriteAllText(dataPath, output);
+                                                        }
+                                                        else
+                                                        {
+
+                                                            if (Convert.ToBoolean(getJsonProperty(dataPath, "isSwitching")))
+                                                            {
+                                                                MessageBox.Show("writing " + item.ToString() + " to path " + settingsPath + "roblox-logs-ignore.txt (File.Exists = " + File.Exists(settingsPath + "roblox-logs-ignore.txt") + ")");
+                                                                // put the filename in roblox-logs-ignore so it doesnt check the same file twice
+                                                                using (StreamWriter sw = File.AppendText(settingsPath + "roblox-logs-ignore.txt")) // creates the file
+                                                                {
+                                                                    sw.WriteLine(item.ToString());
+                                                                    sw.Dispose();
+                                                                    sw.Close();
+                                                                }
+
+                                                                // send webhook
+                                                                string webhookLink = getJsonProperty(dataPath, "webhookLink");
+
+                                                                // change isSwitching to false
+                                                                if (File.Exists(dataPath))
+                                                                {
+                                                                    string json2 = File.ReadAllText(dataPath);
+                                                                    dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json2);
+                                                                    jsonObj[0]["isSwitching"] = false;
+                                                                    string output = Newtonsoft.Json.JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented);
+                                                                    File.WriteAllText(dataPath, output);
+                                                                }
+                                                            }
+
+                                                        }
+                                                        break;
+                                                    }
+                                                    else if (path.Contains("Private Internet Access"))
+                                                    {
+
+                                                    }
+                                                }
+                                            }
+                                            switched = true;
+                                        }
+                                        
                                     }
                                 }
                             }
                         }
                     }
                 }
+                Thread thread = new Thread(checkVPN);
+                thread.Start();
             }
         }
     }

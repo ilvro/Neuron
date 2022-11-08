@@ -1,3 +1,5 @@
-﻿KNOWN BUGS:
+﻿- The VPN used for Neuron is NordVPN. It wont change VPNs if you get unexpected if you have any other VPNs.
+
+KNOWN BUGS:
 	- Closing the UI that shows when you press the play button might freeze the application;
 	- "Relaunch when closed" and "switch VPN on unexpected client behaviour" settings don't save;

@@ -95,7 +95,17 @@ namespace Neuron_V2.main
             {
                 using (StreamWriter sw = File.AppendText(settingsPath + "roblox-logs-ignore.txt")) // creates the file
                 {
-                    sw.WriteLine("");
+                    sw.WriteLine("filename");
+                    sw.Dispose();
+                    sw.Close();
+                }
+            }
+            else
+            {
+                File.Delete(settingsPath + "roblox-logs-ignore");
+                using (StreamWriter sw = File.AppendText(settingsPath + "roblox-logs-ignore.txt")) // creates the file
+                {
+                    sw.WriteLine("filenametEst");
                     sw.Dispose();
                     sw.Close();
                 }
@@ -119,6 +129,33 @@ namespace Neuron_V2.main
                     sw.Close();
                 }
             }
+            if (File.Exists(settingsPath + "connData.json"))
+            {
+                string json = File.ReadAllText(settingsPath + "connData.json");
+                dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
+                jsonObj[0]["isSwitching"] = false;
+                string output = Newtonsoft.Json.JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented);
+                File.WriteAllText(settingsPath + "connData.json", output);
+            }
+            if (File.Exists(settingsPath + "connData.json") == false)
+            {
+                List<NeuronF.ConnData> data = new List<NeuronF.ConnData>();
+                data.Add(new NeuronF.ConnData()
+                {
+                    webhookLink = "",
+                    isSwitching = false
+
+                });
+
+                string json = System.Text.Json.JsonSerializer.Serialize(data);
+                File.WriteAllText(settingsPath + "connData.json", json);
+            }
+
+            string webhookLink = NeuronF.getJsonProperty(settingsPath + "connData.json", "webhookLink");
+            if (webhookLink.Length > 10)
+            {
+                webhookTextAndBorder.Text = webhookLink;
+            }
 
 
             var robloxLogs = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Roblox\\logs"; // clear roblox logs
@@ -140,7 +177,8 @@ namespace Neuron_V2.main
 
             accountsDataGrid.ItemsSource = accounts;
             var RobloxF = new NeuronF.RobloxFunctions();
-            RobloxF.checkVPN();
+            Thread thread = new Thread(RobloxF.checkVPN);
+            thread.Start();
 
 
         }
@@ -194,6 +232,7 @@ namespace Neuron_V2.main
 
                     var tempLines = File.ReadLines(settingsPath + ".accountsBeingManaged.txt");
                     bool isOpen = false;
+                    bool isOpening = false;
                     foreach (var item in tempLines)
                     {
                         if (item.Contains(messageBox.Title))
@@ -208,8 +247,9 @@ namespace Neuron_V2.main
                     if (NeuronF.getOpeningState())
                     {
                         MessageBox.Show("An account is already being opened.");
+                        isOpening = true;
                     }
-                    if (isOpen == false)
+                    if (isOpen == false && isOpening == false)
                     {
                         // use last game id, if there is one
                         messageBox.gameIDLine.Text = NeuronF.getJsonProperty(settingsPath + ((Account)row.DataContext).Username + "_accountData.json", "lastPlace");
@@ -251,6 +291,7 @@ namespace Neuron_V2.main
                                 using (StreamWriter sw = File.AppendText(settingsPath + ".accountsBeingManaged.txt"))
                                 {
                                     sw.WriteLine(name + ":" + RobloxF.getLastActiveInstance().Id.ToString());
+                                    sw.Dispose();
                                     sw.Close();
                                 }
                                 //MessageBox.Show("launched account " + name + " on pid " + RobloxF.getLastActiveInstance().Id.ToString());
@@ -353,6 +394,30 @@ namespace Neuron_V2.main
                 }
             }
             //
+        }
+        private void webhookTextAndBorder_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            var changes = e.Changes.Last();
+            if (IDText.Text.Length > 0)
+            {
+                IDText.Opacity = 0;
+            }
+            else
+            {
+                IDText.Opacity = 0.3;
+            }
+            string dataPath = NeuronF.currentPath() + @"\main\settings\connData.json";
+            List<NeuronF.ConnData> data = new List<NeuronF.ConnData>();
+            data.Add(new NeuronF.ConnData()
+            {
+                webhookLink = webhookTextAndBorder.Text,
+                isSwitching = Convert.ToBoolean(NeuronF.getJsonProperty(dataPath, "isSwitching"))
+
+            });
+
+            string json = System.Text.Json.JsonSerializer.Serialize(data);
+            File.Delete(dataPath);
+            File.WriteAllText(dataPath, json);
         }
     }
 }

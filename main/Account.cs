@@ -32,22 +32,30 @@ namespace Neuron
         public string getCSRF()
         {
 
-            var client = new RestClient("https://auth.roblox.com/v1/authentication-ticket");
-            Uri url = new Uri("https://auth.roblox.com/v1/authentication-ticket");
-
-            var TokenRequest = new RestRequest("", Method.Post);
-            client.AddCookie(".ROBLOSECURITY", Cookie, "", url.Host);
-            var response = client.Execute(TokenRequest);
-
-            foreach (var h in response.Headers)
+            try
             {
-                string Token = NeuronF.getBetween(h.ToString(), "x-csrf-token, Value = ", ",");
-                if (Token.Length > 1)
+                var client = new RestClient("https://auth.roblox.com/v1/authentication-ticket");
+                Uri url = new Uri("https://auth.roblox.com/v1/authentication-ticket");
+
+                var TokenRequest = new RestRequest("", Method.Post);
+                client.AddCookie(".ROBLOSECURITY", Cookie, "", url.Host);
+                var response = client.Execute(TokenRequest);
+
+                foreach (var h in response.Headers)
                 {
-                    return Token;
+                    string Token = NeuronF.getBetween(h.ToString(), "x-csrf-token, Value = ", ",");
+                    if (Token.Length > 1)
+                    {
+                        return Token;
+                    }
                 }
             }
-            throw new Exception("Failed to get X-CSRF-Token.");
+            catch
+            {
+                throw new Exception("connection error");
+            }
+            return "connection error";
+            
         }
 
         public static string getUsername(string Cookie)
@@ -97,7 +105,9 @@ namespace Neuron
         {
             Random Random = new Random();
             TimeSpan t = (DateTime.UtcNow - new DateTime(1970, 1, 1));
-            int browserTrackerID = Random.Next(100000000, 999999999);
+            long one = 100000000000; //
+            long two = 9999999999999; // looks stupid i know
+            long browserTrackerID = Random.Next((int)one, (int)two);
             long timestamp = (long)t.TotalSeconds;
 
             Process.Start($"roblox-player:1+launchmode:play+gameinfo:{getAuthTicket()}+launchtime:{timestamp * 1000}+placelauncherurl:https%3A%2F%2Fassetgame.roblox.com%2Fgame%2FPlaceLauncher.ashx%3Frequest%3DRequestGame%26browserTrackerId%3D{browserTrackerID}%26placeId%3D{placeID}%26isPlayTogetherGame%3Dfalse+browsertrackerid:+{browserTrackerID}+robloxLocale:en_us+gameLocale:en_us");

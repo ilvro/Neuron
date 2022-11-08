@@ -76,7 +76,6 @@ namespace Neuron_V2.main
             }
             catch
             {
-                System.Windows.Forms.MessageBox.Show("Please enter a valid server ID.");
             }
         }
 

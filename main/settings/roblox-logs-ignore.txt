@@ -1,2 +1,4 @@
-
-
+filename
+filename
+filename
+C:\Users\Gabriel\AppData\Local\Roblox\logs\0.551.0.5510576_20221108T202312Z_Player_713BD_last.log

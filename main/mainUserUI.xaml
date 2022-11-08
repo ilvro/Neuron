@@ -120,6 +120,37 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
+        <TextBlock 
+            HorizontalAlignment="Left" 
+            FontWeight="Medium"
+            FontSize="13.5"
+            Margin="635,213,0,0"
+            TextWrapping="Wrap"
+            VerticalAlignment="Top" Height="55" Width="145"><Run Text="(Optional) Send webhook on unexpected"/><Run Text=" "/><InlineUIContainer>
+            </InlineUIContainer><LineBreak/><Run/></TextBlock>
+        <TextBox x:Name="webhookTextAndBorder"
+            FontSize="13"
+            FontWeight="Normal"
+            FontFamily="Montserrat"
+            FontStyle="Normal"
+            Background="Transparent"
+            Foreground="Black"
+            CaretBrush="LightGray"
+            BorderBrush="DarkGray"
+            BorderThickness="0,0,0,2"
+            Opacity="1"
+                 
+            Margin="635,270,10,119" TextChanged="webhookTextAndBorder_TextChanged" Panel.ZIndex="2"/>
+        <TextBlock x:Name="IDText"
+                 FontSize="13"
+                 FontWeight="Medium"
+                 FontFamily="Montserrat"
+                 FontStyle="Italic"
+                 Background="Transparent"
+                 Text="Webhook link here."
+                 Opacity="0.3"
+                 
+                Margin="635,273,-372,110"></TextBlock>
 
 
 
