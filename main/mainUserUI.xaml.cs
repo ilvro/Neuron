@@ -43,6 +43,17 @@ namespace Neuron_V2.main
             ObservableCollection<Account> accounts = new ObservableCollection<Account>();
 
             string settingsPath = NeuronF.currentPath() + @"\main\settings\";
+            try
+            {
+                foreach (string a in Directory.GetFiles(settingsPath))
+                {
+                    break;
+                }
+            }
+            catch
+            {
+                settingsPath = settingsPath.Replace("\\Bin\\Debug", "");
+            }
             foreach (string fileName in Directory.GetFiles(settingsPath))
             {
                 if (fileName.Contains("_accountData"))
@@ -187,6 +198,17 @@ namespace Neuron_V2.main
         {
             ObservableCollection<Account> accounts = new ObservableCollection<Account>();
             string settingsPath = NeuronF.currentPath() + @"\main\settings\";
+            try
+            {
+                foreach (string a in Directory.GetFiles(settingsPath))
+                {
+                    break;
+                }
+            }
+            catch
+            {
+                settingsPath = settingsPath.Replace("\\Bin\\Debug", "");
+            }
 
             foreach (string fileName in Directory.GetFiles(settingsPath))
             {
@@ -222,6 +244,17 @@ namespace Neuron_V2.main
                 {
 
                     string settingsPath = NeuronF.currentPath() + @"\main\settings\";
+                    try
+                    {
+                        foreach (string a in Directory.GetFiles(settingsPath))
+                        {
+                            break;
+                        }
+                    }
+                    catch
+                    {
+                        settingsPath = settingsPath.Replace("\\Bin\\Debug", "");
+                    }
                     DataGridRow row = (DataGridRow)vis;
                     customInputAndButtonMessageBox messageBox = new customInputAndButtonMessageBox
                     {
@@ -298,12 +331,8 @@ namespace Neuron_V2.main
                                 int isManaging = RobloxF.getActiveManagedInstances().Count - 1;
                                 Process currentProcess = RobloxF.getLastActiveInstance();
                                 currentProcess.EnableRaisingEvents = true;
-                                //MessageBox.Show(currentProcess.StartTime.ToString() + " | IsInstanceManaged=" + RobloxF.isInstanceManaged(currentProcess).ToString() + " ("+currentProcess.Id+")"+" | ManagedInstances="+isManaging);
-
-
-                                //currentProcess.Exited += new EventHandler(RobloxF.onInstanceExited);
-                                NeuronF.setOpeningState(false);
                                 currentProcess.Exited += (s, ea) => RobloxF.onInstanceExited(sender, e, name);
+                                NeuronF.setOpeningState(false);
 
 
                             }
@@ -340,6 +369,17 @@ namespace Neuron_V2.main
                     if (dlgResult.ToString() == "Yes")
                     {
                         string settingsPath = NeuronF.currentPath() + @"\main\settings\";
+                        try
+                        {
+                            foreach (string a in Directory.GetFiles(settingsPath))
+                            {
+                                break;
+                            }
+                        }
+                        catch
+                        {
+                            settingsPath = settingsPath.Replace("\\Bin\\Debug", "");
+                        }
                         foreach (string fileName in Directory.GetFiles(settingsPath))
                         {
                             if (fileName.Contains("_accountData") && fileName.Contains(username))
@@ -365,6 +405,17 @@ namespace Neuron_V2.main
                     string username = ((Account)row.DataContext).Username;
                     bool toggled = Convert.ToBoolean(sender.ToString().Substring(sender.ToString().LastIndexOf(":") + 1));
                     string settingsPath = NeuronF.currentPath() + @"\main\settings\";
+                    try
+                    {
+                        foreach (string a in Directory.GetFiles(settingsPath))
+                        {
+                            break;
+                        }
+                    }
+                    catch
+                    {
+                        settingsPath = settingsPath.Replace("\\Bin\\Debug", "");
+                    }
                     string fileName = settingsPath + username + "_accountData.json";
 
                     string json = File.ReadAllText(fileName);
@@ -380,6 +431,17 @@ namespace Neuron_V2.main
         {
             bool toggled = Convert.ToBoolean(sender.ToString().Substring(sender.ToString().LastIndexOf(":") + 1));
             string settingsPath = NeuronF.currentPath() + @"\main\settings\";
+            try
+            {
+                foreach (string a in Directory.GetFiles(settingsPath))
+                {
+                    break;
+                }
+            }
+            catch
+            {
+                settingsPath = settingsPath.Replace("\\Bin\\Debug", "");
+            }
             foreach (string fileName in Directory.GetFiles(settingsPath))
             {
                 if (fileName.Contains(".switch="))

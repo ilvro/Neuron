@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="customInputAndButtonMessageBox" Height="288.934" Width="527.311"
         WindowStartupLocation="CenterScreen"
-        ResizeMode="NoResize">
+        ResizeMode="CanMinimize">
     <Grid Margin="10,10,4,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="96*"/>

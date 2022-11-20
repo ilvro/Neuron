@@ -30,6 +30,17 @@ namespace Neuron_V2.main
         private void playBtn2_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             string settingsPath = NeuronF.currentPath() + @"\main\settings\";
+            try
+            {
+                foreach (string a in Directory.GetFiles(settingsPath))
+                {
+                    break;
+                }
+            }
+            catch
+            {
+                settingsPath = settingsPath.Replace("\\Bin\\Debug", "");
+            }
             string fileName = settingsPath + this.Title + "_accountData.json";
             Account account = new Account { Username = this.Title, Description = "", lastPlace = NeuronF.getJsonProperty(fileName, "lastPlace"), relaunchWhenClosed = NeuronF.getJsonProperty(fileName, "relaunchWhenClosed"), Cookie = NeuronF.getJsonProperty(fileName, "Cookie"), lastMethod = "None" };
             account.openRoblox();
@@ -51,6 +62,17 @@ namespace Neuron_V2.main
                 if (gameIDLine.Text.Length > 0)
                 {
                     string settingsPath = NeuronF.currentPath() + @"\main\settings\";
+                    try
+                    {
+                        foreach (string a in Directory.GetFiles(settingsPath))
+                        {
+                            break;
+                        }
+                    }
+                    catch
+                    {
+                        settingsPath = settingsPath.Replace("\\Bin\\Debug", "");
+                    }
                     string fileName = settingsPath + this.Title + "_accountData.json";
                     var RobloxF = new NeuronF.RobloxFunctions();
                     RobloxF.killInactiveInstances();
@@ -83,6 +105,17 @@ namespace Neuron_V2.main
         public void saveLastLaunched(Account account)
         {
             string settingsPath = NeuronF.currentPath() + @"\main\settings\";
+            try
+            {
+                foreach (string a in Directory.GetFiles(settingsPath))
+                {
+                    break;
+                }
+            }
+            catch
+            {
+                settingsPath = settingsPath.Replace("\\Bin\\Debug", "");
+            }
             string[] files = Directory.GetFiles(settingsPath);
             foreach (var item in files)
             {

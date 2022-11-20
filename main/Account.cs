@@ -10,6 +10,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Neuron
 {
@@ -101,17 +102,48 @@ namespace Neuron
             Process.Start($"roblox-player:1+launchmode:app+gameinfo:{getAuthTicket()}+launchtime:{LaunchTime}+browsertrackerid:{browserTrackerID}+robloxLocale:en_us+gameLocale:en_us");
         }
 
-        public string joinServer(long placeID)
+        public void joinServer(long placeID)
         {
+            string settingsPath = NeuronF.currentPath() + @"\main\settings\";
+            try
+            {
+                foreach (string a in Directory.GetFiles(settingsPath))
+                {
+                    break;
+                }
+            }
+            catch
+            {
+                settingsPath = settingsPath.Replace("\\Bin\\Debug", "");
+            }
+            string dataPath = settingsPath + "connData.json";
+            bool switching = Convert.ToBoolean(NeuronF.getJsonProperty(dataPath, "isSwitching"));
+            if (switching)
+            {
+                while (switching)
+                {
+                    // wait until its done changing vpns
+                }
+            }
+
             Random Random = new Random();
             TimeSpan t = (DateTime.UtcNow - new DateTime(1970, 1, 1));
-            long one = 100000000000; //
-            long two = 9999999999999; // looks stupid i know
-            long browserTrackerID = Random.Next((int)one, (int)two);
+            long browserTrackerID = Random.Next(100000000, 999999999);
             long timestamp = (long)t.TotalSeconds;
 
-            Process.Start($"roblox-player:1+launchmode:play+gameinfo:{getAuthTicket()}+launchtime:{timestamp * 1000}+placelauncherurl:https%3A%2F%2Fassetgame.roblox.com%2Fgame%2FPlaceLauncher.ashx%3Frequest%3DRequestGame%26browserTrackerId%3D{browserTrackerID}%26placeId%3D{placeID}%26isPlayTogetherGame%3Dfalse+browsertrackerid:+{browserTrackerID}+robloxLocale:en_us+gameLocale:en_us");
-            return "";
+            //Process.Start($"roblox-player:1+launchmode:play+gameinfo:{getAuthTicket()}+launchtime:{timestamp * 1000}+placelauncherurl:https%3A%2F%2Fassetgame.roblox.com%2Fgame%2FPlaceLauncher.ashx%3Frequest%3DRequestGame%26browserTrackerId%3D{browserTrackerID}%26placeId%3D{placeID}%26isPlayTogetherGame%3Dfalse+browsertrackerid:+{browserTrackerID}+robloxLocale:en_us+gameLocale:en_us+channel:+LaunchExp:InApp");
+            // will start the process in python because the method above isnt compatible with synapse for some reason
+            //MessageBox.Show($"python {NeuronF.currentPath() + @"\main\joinServer.py"} {getAuthTicket()} {browserTrackerID} {placeID}");
+
+            System.Diagnostics.Process process = new System.Diagnostics.Process();
+            System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+            startInfo.WorkingDirectory = NeuronF.currentPath() + @"\main\";
+            startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+            startInfo.FileName = "cmd.exe";
+            startInfo.Arguments = $"/C python joinServer.py {getAuthTicket()} {browserTrackerID} {placeID}";
+            process.StartInfo.Verb = "runas";
+            process.StartInfo = startInfo;
+            process.Start();
         }
 
 

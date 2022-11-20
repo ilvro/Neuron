@@ -222,6 +222,17 @@ namespace Neuron_V2.main
         public static bool getOpeningState()
         {
             string settingsPath = NeuronF.currentPath() + @"\main\settings\";
+            try
+            {
+                foreach (string a in Directory.GetFiles(settingsPath))
+                {
+                    break;
+                }
+            }
+            catch
+            {
+                settingsPath = settingsPath.Replace("\\Bin\\Debug", "");
+            }
             bool reopening = false;
             foreach (string fileName in Directory.GetFiles(settingsPath))
             {
@@ -237,6 +248,18 @@ namespace Neuron_V2.main
         public static bool getSwitchState()
         {
             string settingsPath = NeuronF.currentPath() + @"\main\settings\";
+
+            try
+            {
+                foreach (string a in Directory.GetFiles(settingsPath))
+                {
+                    break;
+                }
+            }
+            catch
+            {
+                settingsPath = settingsPath.Replace("\\Bin\\Debug", "");
+            }
             bool switchState = false;
             foreach (string fileName in Directory.GetFiles(settingsPath))
             {
@@ -253,6 +276,17 @@ namespace Neuron_V2.main
         public static void setOpeningState(bool reopening)
         {
             string settingsPath = NeuronF.currentPath() + @"\main\settings\";
+            try
+            {
+                foreach (string a in Directory.GetFiles(settingsPath))
+                {
+                    break;
+                }
+            }
+            catch
+            {
+                settingsPath = settingsPath.Replace("\\Bin\\Debug", "");
+            }
             foreach (string fileName in Directory.GetFiles(settingsPath))
             {
                 if (fileName.Contains(".reopening="))
@@ -304,6 +338,17 @@ namespace Neuron_V2.main
             {
                 List<Process> processList = new List<Process>();
                 string settingsPath = NeuronF.currentPath() + @"\main\settings\";
+                try
+                {
+                    foreach (string a in Directory.GetFiles(settingsPath))
+                    {
+                        break;
+                    }
+                }
+                catch
+                {
+                    settingsPath = settingsPath.Replace("\\Bin\\Debug", "");
+                }
                 var lines = File.ReadLines(settingsPath + ".accountsBeingManaged.txt");
                 foreach (var item in lines)
                 {
@@ -362,6 +407,17 @@ namespace Neuron_V2.main
             {
                 //return getActiveUnmanagedInstances().OrderBy(p => p.StartTime).Last();        doesnt work for some reason
                 string settingsPath = NeuronF.currentPath() + @"\main\settings\";
+                try
+                {
+                    foreach (string a in Directory.GetFiles(settingsPath))
+                    {
+                        break;
+                    }
+                }
+                catch
+                {
+                    settingsPath = settingsPath.Replace("\\Bin\\Debug", "");
+                }
                 var tempLines = File.ReadLines(settingsPath + ".accountsBeingManaged.txt");
                 Process[] ProcessCollection = Process.GetProcesses();
                 List<Process> processList = new List<Process>();
@@ -385,6 +441,17 @@ namespace Neuron_V2.main
             public bool isInstanceManaged(Process p)
             {
                 string settingsPath = NeuronF.currentPath() + @"\main\settings\";
+                try
+                {
+                    foreach (string a in Directory.GetFiles(settingsPath))
+                    {
+                        break;
+                    }
+                }
+                catch
+                {
+                    settingsPath = settingsPath.Replace("\\Bin\\Debug", "");
+                }
                 var tempLines = File.ReadLines(settingsPath + ".accountsBeingManaged.txt");
 
                 bool found = false;
@@ -419,6 +486,17 @@ namespace Neuron_V2.main
                     // wait
                 }
                 string settingsPath = NeuronF.currentPath() + @"\main\settings\";
+                try
+                {
+                    foreach (string a in Directory.GetFiles(settingsPath))
+                    {
+                        break;
+                    }
+                }
+                catch
+                {
+                    settingsPath = settingsPath.Replace("\\Bin\\Debug", "");
+                }
                 string toRemove = "";
                 var lines = File.ReadLines(settingsPath + ".accountsBeingManaged.txt");
                 foreach (var line in lines)
@@ -484,6 +562,17 @@ namespace Neuron_V2.main
             {
                 //string oldIP = GetLocalIPAddress();
                 string settingsPath = NeuronF.currentPath() + @"\main\settings\";
+                try
+                {
+                    foreach (string a in Directory.GetFiles(settingsPath))
+                    {
+                        break;
+                    }
+                }
+                catch
+                {
+                    settingsPath = settingsPath.Replace("\\Bin\\Debug", "");
+                }
                 string dataPath = settingsPath + "connData.json";
                 bool isSwitching = Convert.ToBoolean(NeuronF.getJsonProperty(dataPath, "isSwitching"));
                 bool switched = false;
@@ -537,8 +626,8 @@ namespace Neuron_V2.main
                                             processt.StartInfo = startInfot;
                                             processt.Start();
 
-                                            MessageBox.Show("found unexpected");
-                                            MessageBox.Show(item.ToString());
+                                            //MessageBox.Show("found unexpected");
+                                            //MessageBox.Show(item.ToString());
                                             string[] possible_paths =
                                             {
                                                     "C:\\Program Files\\NordVPN",
@@ -551,7 +640,8 @@ namespace Neuron_V2.main
                                                     "D:\\Private Internet Access",
 
                                                     "C:\\Program Files\\OpenVPN\\bin"
-                                                };
+                                            };
+
                                             foreach (var path in possible_paths)
                                             {
                                                 if (Directory.Exists(path) || File.Exists(path))
@@ -587,11 +677,11 @@ namespace Neuron_V2.main
                                                         {
                                                             if (count >= 10 || oldIP != GetLocalIPAddress())
                                                             {
-                                                                MessageBox.Show("broke loop");
+                                                                //MessageBox.Show("broke loop");
                                                                 break;
                                                             }
                                                             count++;
-                                                            MessageBox.Show(count.ToString());
+                                                            //MessageBox.Show(count.ToString());
                                                             System.Threading.Thread.Sleep(6000);
                                                         }
                                                         System.Threading.Thread.Sleep(2000);
@@ -599,7 +689,7 @@ namespace Neuron_V2.main
                                                         if (oldIP == GetLocalIPAddress())
                                                         {
                                                             //same ip, failed to connect
-                                                            MessageBox.Show("same ip, failed to connect (" + oldIP + " || " + GetLocalIPAddress() + ")");
+                                                            //MessageBox.Show("same ip, failed to connect (" + oldIP + " || " + GetLocalIPAddress() + ")");
                                                             string json2 = File.ReadAllText(dataPath);
                                                             dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json2);
                                                             jsonObj[0]["isSwitching"] = false;
@@ -611,7 +701,7 @@ namespace Neuron_V2.main
 
                                                             if (Convert.ToBoolean(getJsonProperty(dataPath, "isSwitching")))
                                                             {
-                                                                MessageBox.Show("writing " + item.ToString() + " to path " + settingsPath + "roblox-logs-ignore.txt (File.Exists = " + File.Exists(settingsPath + "roblox-logs-ignore.txt") + ")");
+                                                                //MessageBox.Show("writing " + item.ToString() + " to path " + settingsPath + "roblox-logs-ignore.txt (File.Exists = " + File.Exists(settingsPath + "roblox-logs-ignore.txt") + ")");
                                                                 // put the filename in roblox-logs-ignore so it doesnt check the same file twice
                                                                 using (StreamWriter sw = File.AppendText(settingsPath + "roblox-logs-ignore.txt")) // creates the file
                                                                 {
@@ -640,6 +730,34 @@ namespace Neuron_V2.main
                                                     else if (path.Contains("Private Internet Access"))
                                                     {
 
+                                                        // change isSwitching to true
+                                                        if (File.Exists(dataPath))
+                                                        {
+                                                            string json2 = File.ReadAllText(dataPath);
+                                                            dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json2);
+                                                            jsonObj[0]["isSwitching"] = true;
+                                                            string output = Newtonsoft.Json.JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented);
+                                                            File.WriteAllText(dataPath, output);
+                                                        }
+
+
+                                                        System.Diagnostics.Process process = new System.Diagnostics.Process();
+                                                        System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+                                                        startInfo.WorkingDirectory = path;
+                                                        startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+                                                        startInfo.FileName = "cmd.exe";
+                                                        startInfo.Arguments = "/C \""+path+"\" disconnect";
+                                                        process.StartInfo = startInfo;
+                                                        process.Start();
+
+                                                        System.Diagnostics.Process process2 = new System.Diagnostics.Process();
+                                                        System.Diagnostics.ProcessStartInfo startInfo2 = new System.Diagnostics.ProcessStartInfo();
+                                                        startInfo.WorkingDirectory = path;
+                                                        startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+                                                        startInfo.FileName = "cmd.exe";
+                                                        startInfo.Arguments = "/C \"" + path + "\" connect";
+                                                        process2.StartInfo = startInfo2;
+                                                        process2.Start();
                                                     }
                                                 }
                                             }

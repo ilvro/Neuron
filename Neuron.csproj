@@ -322,6 +322,9 @@
   <ItemGroup>
     <Resource Include="READ ME %28important%29.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="main\joinServer.py" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
