@@ -11,3 +11,6 @@ def launchClient(ticket, trackerID, placeID, *args):
         );
 
 launchClient(*argv[1:])
+
+
+#startInfo.Arguments = $"/C python joinServer.py {getAuthTicket()} {browserTrackerID} {placeID}";
