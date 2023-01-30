@@ -30,9 +30,10 @@ namespace Neuron_V2
 
 
             // because the wl is down
-            var mainNeuron = new mainUserUI();
-            mainNeuron.ShowDialog(); // this pauses this window's code
+            var mainWindow = new mainUserUI();
+            mainWindow.ShowDialog(); // this pauses this window's code
             Application.Current.Shutdown(); // stops everything when the main ui is closed (mainUserUI)
+            
 
 
 
@@ -45,7 +46,7 @@ namespace Neuron_V2
                 keyTextAndBorder.Text = NeuronF.getJsonProperty(@"\main\settings\login.json", "Key");
                 IDTextAndBorder.Text = NeuronF.getJsonProperty(@"\main\settings\login.json", "discordID");
 
-                /*
+                
                 if (NeuronF.checkWhitelist(keyTextAndBorder.Text, IDTextAndBorder.Text, "login") == "qptoe5?")
                    {
                     var mainNeuron = new mainUserUI();
@@ -57,7 +58,7 @@ namespace Neuron_V2
                 {
                     // make the blue lines turn red and add "Something went wrong. Try double checking your key."
                     MessageBox.Show("Something went wrong. Try double checking your key.");
-                }*/
+                }
             }
         }
 
@@ -83,12 +84,13 @@ namespace Neuron_V2
         private void startUp() // checks for updates, validates files, etc
         {
 
+            /*
             if (Directory.Exists(NeuronF.currentPath() + @"\main").ToString() != "True") // ...
             {
                 //MessageBox.Show("Couldn't find folder 'main'. This could be due to a download error.\nTry downloading again.");
                 MessageBox.Show("wrong directory");
                 Application.Current.Shutdown();
-            }
+            }*/
 
             // check if roblox is open; if it is, prompt to close it. this is because multi roblox wont work if its already open
             Process[] processes = Process.GetProcessesByName("RobloxPlayerBeta");

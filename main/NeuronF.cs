@@ -71,7 +71,7 @@ namespace Neuron_V2.main
             return neuronPath;
         }
 
-        public static string checkWhitelist(string key, string discordID, string callType)
+        public static string checkWhitelist(string key, string discordID, string callType) // not used anymore since its free now
         {
             // callType can be "regular" or "login"
             Random random = new Random();

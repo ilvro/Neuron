@@ -1,3 +1,4 @@
+# had to make this since it wasnt working on c# for some reason
 from sys import argv
 from webbrowser import open as openUrl;
 
