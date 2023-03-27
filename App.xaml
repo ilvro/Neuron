@@ -124,7 +124,7 @@
             <Setter Property="ValidationErrorTemplate">
                 <Setter.Value>
                     <ControlTemplate>
-                        <TextBlock Foreground="Red" Margin="2,0,0,0" Text="!" VerticalAlignment="Center"/>
+                        <TextBlock Foreground="Black" Margin="2,0,0,0" Text="!" VerticalAlignment="Center"/>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -184,7 +184,7 @@
         <Style x:Key="DataGridColumnHeaderStyle1" TargetType="{x:Type DataGridColumnHeader}">
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="Background" Value="Transparent" />
-            <Setter Property="Foreground" Value="#69717D" />
+            <Setter Property="Foreground" Value="#8e949d" />
             <Setter Property="Margin" Value="15 0 15 10" />
             <Setter Property="Template">
                 <Setter.Value>

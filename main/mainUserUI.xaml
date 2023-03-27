@@ -9,7 +9,8 @@
         VisualTextRenderingMode="ClearType"
         SnapsToDevicePixels="True"
         WindowStartupLocation="CenterScreen"
-        ResizeMode="CanMinimize">
+        ResizeMode="CanMinimize"
+        Closing="Window_Closing">
 
 
 

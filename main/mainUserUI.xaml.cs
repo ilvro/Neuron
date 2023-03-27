@@ -33,12 +33,10 @@ namespace Neuron_V2.main
 
             InitializeComponent();
             startUp();
-            new Mutex(true, "ROBLOX_singletonMutex"); // thx alt manager
         }
 
         public void startUp()
         {
-            //new Mutex(true, "ROBLOX_singletonMutex"); // thx alt manager
             this.Title = "Neuron";
             ObservableCollection<Account> accounts = new ObservableCollection<Account>();
 
@@ -480,6 +478,14 @@ namespace Neuron_V2.main
             string json = System.Text.Json.JsonSerializer.Serialize(data);
             File.Delete(dataPath);
             File.WriteAllText(dataPath, json);
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) // necessary
+        {
+            foreach (var process in Process.GetProcessesByName("Neuron V2"))
+            {
+                process.Kill();
+            }
         }
     }
 }

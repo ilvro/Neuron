@@ -33,33 +33,7 @@ namespace Neuron_V2
             var mainWindow = new mainUserUI();
             mainWindow.ShowDialog(); // this pauses this window's code
             Application.Current.Shutdown(); // stops everything when the main ui is closed (mainUserUI)
-            
-
-
-
-
-
-
-
-            if (File.Exists(NeuronF.currentPath() + @"\main\settings\login.json").ToString() == "True") // check if theyre already logged in
-            {
-                keyTextAndBorder.Text = NeuronF.getJsonProperty(@"\main\settings\login.json", "Key");
-                IDTextAndBorder.Text = NeuronF.getJsonProperty(@"\main\settings\login.json", "discordID");
-
-                
-                if (NeuronF.checkWhitelist(keyTextAndBorder.Text, IDTextAndBorder.Text, "login") == "qptoe5?")
-                   {
-                    var mainNeuron = new mainUserUI();
-                    mainNeuron.ShowDialog(); // this pauses this window's code
-                    Application.Current.Shutdown(); // stops everything when the main ui is closed (mainUserUI)
-
-                   }
-                   else
-                {
-                    // make the blue lines turn red and add "Something went wrong. Try double checking your key."
-                    MessageBox.Show("Something went wrong. Try double checking your key.");
-                }
-            }
+           
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs args)
@@ -81,7 +55,7 @@ namespace Neuron_V2
         }
 
 
-        private void startUp() // checks for updates, validates files, etc
+        private void startUp()
         {
 
             /*
